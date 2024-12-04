@@ -2,7 +2,7 @@ package com.hemostaza.blank.listeners;
 
 import com.hemostaza.blank.BlankPlugin;
 import com.hemostaza.blank.SignData;
-import com.hemostaza.blank.SignUtils;
+import com.hemostaza.blank.utils.SignUtils;
 import com.hemostaza.blank.Warp;
 import com.hemostaza.blank.items.ItemManager;
 import org.bukkit.ChatColor;

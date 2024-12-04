@@ -17,8 +17,8 @@ public class ItemManager {
         createHouseCreator();
     }
 
-    private static void createPaper(){
-        ItemStack item = new ItemStack(Material.PAPER,1);
+    private static void createPaper() {
+        ItemStack item = new ItemStack(Material.PAPER, 1);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName("Czysty kupon powrotu");
         List<String> lore = new ArrayList<>();

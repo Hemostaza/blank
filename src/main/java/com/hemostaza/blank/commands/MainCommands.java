@@ -28,14 +28,25 @@ public class MainCommands implements CommandExecutor {
         }
         Player p = (Player) sender;
         if(args[0].equalsIgnoreCase("patyk")){
-            p.getInventory().addItem(ItemManager.houseCreator);
+
+            ItemStack item = ItemManager.houseCreator;
+            if(args[1]!=null){
+                int amount = Integer.parseInt(args[1]);
+                item.setAmount(amount);
+            }
+            p.getInventory().addItem(item);
         }
         if(args[0].equalsIgnoreCase("papier")){
-            p.getInventory().addItem(ItemManager.paper);
+            ItemStack item = ItemManager.paper;
+            if(args[1]!=null){
+                int amount = Integer.parseInt(args[1]);
+                item.setAmount(amount);
+            }
+            p.getInventory().addItem(item);
         }
 
         if(args[0].equalsIgnoreCase("tp")){
-            teleportPlayer(p,args[1],false,0);
+            teleportPlayer(p,args[1]+"#"+args[2],false,0);
         }
 
         return true;
@@ -50,13 +61,6 @@ public class MainCommands implements CommandExecutor {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', warpNotFoundMessage));
             }
             return;
-        }
-
-        int cooldown = 5;
-
-        String teleportMessage = "chuja";
-        if (teleportMessage != null) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', teleportMessage.replace("{warp-name}", warp.getName()).replace("{time}", String.valueOf(cooldown))));
         }
         Location targetLocation = warp.getLocation();
         player.teleport(targetLocation);

@@ -2,7 +2,7 @@ package com.hemostaza.blank.listeners;
 
 import com.hemostaza.blank.BlankPlugin;
 import com.hemostaza.blank.SignData;
-import com.hemostaza.blank.SignUtils;
+import com.hemostaza.blank.utils.SignUtils;
 import com.hemostaza.blank.Warp;
 import com.hemostaza.blank.items.ItemManager;
 import com.hemostaza.blank.utils.Utils;
@@ -14,12 +14,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.Objects;
 
 public class CreatingCouponListener implements Listener {
     private final BlankPlugin plugin;

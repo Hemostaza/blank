@@ -1,8 +1,12 @@
 package com.hemostaza.blank.utils;
 
-import com.hemostaza.blank.SignUtils;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.HangingSign;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.WallSign;
+import org.bukkit.block.sign.Side;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -46,5 +50,42 @@ public class Utils {
             return false;
         }
         return (metaInHand.getDisplayName().equals(name) && !homeName.equals(signHomeName));
+    }
+    public static boolean isValidBlock(Block b){
+
+        if(b==null){
+            return false;
+        }
+        BlockState blockState = b.getState();
+
+        if (blockState instanceof Sign) {
+            return true;
+        }
+        if(blockState instanceof HangingSign){
+            return true;
+        }
+        return false;
+    }
+    public static String[] SignLinesFromBloc(Block block){
+        if(block==null){
+            return null;
+        }
+        BlockData blockData = block.getBlockData();
+
+//        if (!(blockData instanceof WallSign) && !(blockData instanceof org.bukkit.block.data.type.Sign)) {
+//            return null;
+//        }
+
+        BlockState blockState = block.getState();
+        if ((blockState instanceof Sign)) {
+            Sign s = (Sign) blockState;
+            return s.getSide(Side.FRONT).getLines();
+        }
+        if((blockState instanceof Sign)){
+            HangingSign s = (HangingSign) blockState;
+            return s.getSide(Side.FRONT).getLines();
+        }
+
+        return null;
     }
 }

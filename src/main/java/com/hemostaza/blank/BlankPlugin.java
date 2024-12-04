@@ -18,7 +18,7 @@ public class BlankPlugin extends JavaPlugin implements Listener {
         //create db
         Warp.createTable();
 
-        PluginCommand command = getCommand("dajdom");
+        PluginCommand command = getCommand("bd");
         if(command!=null){
             MainCommands mc = new MainCommands(this);
             command.setExecutor(mc);
