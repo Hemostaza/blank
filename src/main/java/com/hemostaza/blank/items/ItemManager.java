@@ -29,13 +29,17 @@ public class ItemManager {
         paper = item;
     }
 
-    public static ItemStack createTeleportPaper(String homename){
-        ItemStack item = new ItemStack(Material.PAPER,1);
+    public static ItemStack createTeleportPaper(String homename,String homeSuff){
+        return createTeleportPaper(homename,homeSuff,1);
+    }
+    public static ItemStack createTeleportPaper(String homename, String homeSuff, int amount){
+        ItemStack item = new ItemStack(Material.PAPER,amount);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName("Kupon powrotu");
         List<String> lore = new ArrayList<>();
         lore.add("Kupon powrotu do domu:");
         lore.add(homename);
+        lore.add(homeSuff);
         meta.setLore(lore);
         item.setItemMeta(meta);
         return item;

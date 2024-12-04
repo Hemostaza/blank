@@ -5,6 +5,7 @@ import com.hemostaza.blank.SignData;
 import com.hemostaza.blank.SignUtils;
 import com.hemostaza.blank.Warp;
 import com.hemostaza.blank.items.ItemManager;
+import com.hemostaza.blank.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -31,18 +32,11 @@ public class CreatingCouponListener implements Listener {
 
     @EventHandler
     public void onPlayerUse(PlayerInteractEvent event) {
-        if (!(Objects.equals(event.getHand(), EquipmentSlot.HAND))) {
-            return;
-        }
         Player player = event.getPlayer();
+        if (!Utils.isValidUse(player, event, false, false)) {
+            return;
+        }
         Block block = event.getClickedBlock();
-
-        if (!player.isSneaking()) {
-            return;
-        }
-        if (!(event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
-            return;
-        }
 
         Sign sign = SignUtils.getSignFromBlock(block);
         if (sign == null) {
@@ -51,19 +45,9 @@ public class CreatingCouponListener implements Listener {
 
         SignData signData = new SignData(sign.getSide(Side.FRONT).getLines());
 
-        ItemMeta metaInHand;
-        metaInHand = player.getInventory().getItemInMainHand().getItemMeta();
-        if(metaInHand==null){
-            return;
-        }
-        String homeName = player.getInventory().getItemInMainHand().getItemMeta().getLore().get(1);
+        String signHomeName = signData.warpName;
 
-        if (metaInHand.equals(ItemManager.paper.getItemMeta()) ||
-                (metaInHand.getDisplayName().equals("Kupon powrotu") && homeName!=null)) {
-
-            if(homeName.equals(signData.warpName+signData.warpNameSuf)){
-                return;
-            }
+        if (Utils.isValidMeta(player, "Kupon powrotu", signHomeName) || Utils.isValidMeta(player, ItemManager.paper.getItemMeta())) {
 
             if (!signData.isHomeSign()) {
                 return;
@@ -87,8 +71,14 @@ public class CreatingCouponListener implements Listener {
                 event.setCancelled(true);
                 return;
             }
-            player.getInventory().addItem(ItemManager.createTeleportPaper(signData.warpName + signData.warpNameSuf));
-            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+            if (player.isSneaking()) {
+                int quantity = player.getInventory().getItemInMainHand().getAmount();
+                player.getInventory().addItem(ItemManager.createTeleportPaper(signData.warpName, signData.warpNameSuf, quantity));
+                player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - quantity);
+            } else {
+                player.getInventory().addItem(ItemManager.createTeleportPaper(signData.warpName, signData.warpNameSuf));
+                player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+            }
         }
     }
 }

@@ -14,12 +14,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.Objects;
 
 public class HomeWandListener implements Listener {
     private final BlankPlugin plugin;
@@ -33,7 +28,7 @@ public class HomeWandListener implements Listener {
     @EventHandler
     public void onPlayerUse(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        if(!Utils.isValidUse(player,event,false)){
+        if(!Utils.isValidUse(player,event,false,true)){
             return;
         }
         Block block = event.getClickedBlock();
@@ -46,7 +41,7 @@ public class HomeWandListener implements Listener {
 
         if(Utils.isValidMeta(player, ItemManager.houseCreator.getItemMeta())){
 
-            String suff = "rand";
+            String suff = "#"+player.getName();
 
             if(!signData.isHomeSign()){
                 return;
@@ -75,7 +70,7 @@ public class HomeWandListener implements Listener {
             Warp warp = new Warp(signData.warpName+suff, player.getLocation(), currentDateTime);
             warp.save();
 
-            sign.getSide(Side.FRONT).setLine(0, ChatColor.BLUE + "[dom]");
+            sign.getSide(Side.FRONT).setLine(0, ChatColor.BLUE + "[HOME]");
 
             String targetSignCreatedMessage = config.getString("messages.target_sign_created");
             if (targetSignCreatedMessage != null) {

@@ -3,6 +3,7 @@ package com.hemostaza.blank.listeners;
 import com.hemostaza.blank.BlankPlugin;
 import com.hemostaza.blank.SignUtils;
 import com.hemostaza.blank.Warp;
+import com.hemostaza.blank.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -10,16 +11,14 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.UUID;
 
 public class TeleportListener implements Listener {
@@ -27,8 +26,6 @@ public class TeleportListener implements Listener {
     private static FileConfiguration config;
     private final HashMap<UUID, BukkitTask> teleportTasks = new HashMap<>();
     private final HashSet<UUID> invinciblePlayers = new HashSet<>();
-    private final HashMap<UUID, Double> pendingTeleportCosts = new HashMap<>();
-    private final HashMap<UUID, Integer> pendingItemCosts = new HashMap<>();
 
     public TeleportListener(BlankPlugin plugin) {
         this.plugin = plugin;
@@ -37,14 +34,13 @@ public class TeleportListener implements Listener {
 
     @EventHandler
     public void onPlayerUse(PlayerInteractEvent event) {
-        if (!(Objects.equals(event.getHand(), EquipmentSlot.HAND))) {
-            return;
-        }
         Player player = event.getPlayer();
-        if (!player.isSneaking()) {
+        if(!Utils.isValidUse(player,event,true,false)){
             return;
         }
-        if (!(event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR)) {
+        Block block = event.getClickedBlock();
+        Sign sign = SignUtils.getSignFromBlock(block);
+        if(sign!=null){
             return;
         }
 
@@ -56,16 +52,22 @@ public class TeleportListener implements Listener {
         if(!metaInHand.getDisplayName().equals("Kupon powrotu")){
             return;
         }
-        String homeName = player.getInventory().getItemInMainHand().getItemMeta().getLore().get(1);
+        String homeName = metaInHand.getLore().get(1);
+        String homeSuff = metaInHand.getLore().get(2);
         if(homeName==null){
             return;
         }
+        if(homeSuff==null){
+            return;
+        }
 
-        teleportPlayer(player,homeName,false,0);
+        ItemStack usedItem = player.getInventory().getItemInMainHand();
+
+        teleportPlayer(player,homeName+homeSuff,usedItem);
 
     }
 
-    private void teleportPlayer(Player player, String warpName, boolean useEconomy, double cost) {
+    private void teleportPlayer(Player player, String warpName, ItemStack usedItem) {
         Warp warp = Warp.getByName(warpName);
 
         if (warp == null) {
@@ -97,7 +99,13 @@ public class TeleportListener implements Listener {
         // Schedule the new teleport task
         BukkitTask teleportTask = Bukkit.getScheduler().runTaskLater(plugin, () -> {
             Location targetLocation = warp.getLocation();
-            player.teleport(targetLocation);
+
+            if(player.getInventory().containsAtLeast(usedItem,1)){
+                ItemStack useItem = usedItem.clone();
+                useItem.setAmount(1);
+                player.getInventory().removeItem(useItem);
+                player.teleport(targetLocation);
+
 
             String soundName = config.getString("teleport-sound", "ENTITY_ENDERMAN_TELEPORT");
             String effectName = config.getString("teleport-effect", "ENDER_SIGNAL");
@@ -113,16 +121,44 @@ public class TeleportListener implements Listener {
             if (successMessage != null) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', successMessage.replace("{warp-name}", warp.getName())));
             }
-            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+            //player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+            }else
+            {
+                String successMessage = config.getString("messages.teleport-error");
+                if (successMessage != null) {
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', successMessage.replace("{warp-name}", warp.getName())));
+                }
+            }
             // Remove the task from the map after completion
             teleportTasks.remove(playerUUID);
             // Remove the player from the invincible list
             invinciblePlayers.remove(playerUUID);
+
 
         }, cooldown * 20L); // 20 ticks = 1 second
 
         // Store the task in the map
         teleportTasks.put(playerUUID, teleportTask);
     }
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent event) {
+        Player player = event.getPlayer();
+        UUID playerUUID = player.getUniqueId();
 
+        if (teleportTasks.containsKey(playerUUID)) {
+            Location from = event.getFrom();
+            Location to = event.getTo();
+
+            if (from.getX() != to.getX() || from.getY() != to.getY() || from.getZ() != to.getZ()) {
+                BukkitTask teleportTask = teleportTasks.get(playerUUID);
+                if (teleportTask != null && !teleportTask.isCancelled()) {
+                    teleportTask.cancel();
+                    teleportTasks.remove(playerUUID);
+                    invinciblePlayers.remove(playerUUID); // Remove invincibility
+                    String cancelMessage = config.getString("messages.teleport-cancelled", "&cTeleportation cancelled.");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', cancelMessage));
+                }
+            }
+        }
+    }
 }

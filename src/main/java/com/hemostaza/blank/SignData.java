@@ -2,7 +2,7 @@ package com.hemostaza.blank;
 import net.md_5.bungee.api.ChatColor;
 
 public class SignData {
-    static final String HEADER_WARP = "[dom]";
+    static final String HEADER_WARP = "[HOME]";
 
     private String header;
     public String warpName;
