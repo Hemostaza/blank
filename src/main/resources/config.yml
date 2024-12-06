@@ -11,10 +11,31 @@ couponitem:
   name: "Kupon powrotu"
   lore:
     l1: "Kupon połączony z domem:"
+weak_potion:
+  exp: 100
+  name: "Miksturka z doświadczeniem"
+  lore:
+    l1: "Niewielka ilość doświadczenia"
+    l2: "w płynie."
+medium_potion:
+  exp: 500
+  name: "Misktura z doświadczeniem"
+  lore:
+    l1: "Doświadczenie w płynie."
+    l2: "hehe"
+strong_potion:
+  exp: 1500
+  name: "Mikstura z doświadczeniem"
+  lore:
+    l1: "Duża ilość doświadczenia"
+    l2: "w płynie lol xD"
     
 
 # Custom messages
 messages:
+  wrong_stack_amount: "Podaj prawidłowy rozmiar"
+  not_enough_exp: "Za mało expa milordzie"
+  not_enough_bottles: "Zbyt mało buteleczek mój panie"
   create_permission: "&cYou do not have the required permissions to create warp signs!"
   no_warp_name: "&cNo warp name set!\nPlease specify the warp name on the second line."
   warp_created: "&aWarp sign successfully placed."

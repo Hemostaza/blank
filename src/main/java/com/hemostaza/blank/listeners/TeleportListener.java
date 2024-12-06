@@ -35,35 +35,35 @@ public class TeleportListener implements Listener {
     @EventHandler
     public void onPlayerUse(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        if(!Utils.isValidUse(player,event,true,false)){
+        if (!Utils.isValidUse(player, event, true, false)) {
             return;
         }
         Block block = event.getClickedBlock();
         Sign sign = SignUtils.getSignFromBlock(block);
-        if(sign!=null){
+        if (sign != null) {
             return;
         }
 
         ItemMeta metaInHand;
         metaInHand = player.getInventory().getItemInMainHand().getItemMeta();
-        if(metaInHand==null){
+        if (metaInHand == null) {
             return;
         }
-        if(!metaInHand.getDisplayName().equals(config.getString("couponitem.name"))){
+        if (!metaInHand.getDisplayName().equals(config.getString("couponitem.name"))) {
             return;
         }
         String homeName = metaInHand.getLore().get(1);
         String homeSuff = metaInHand.getLore().get(2);
-        if(homeName==null){
+        if (homeName == null) {
             return;
         }
-        if(homeSuff==null){
+        if (homeSuff == null) {
             return;
         }
 
         ItemStack usedItem = player.getInventory().getItemInMainHand();
 
-        teleportPlayer(player,homeName+homeSuff,usedItem);
+        teleportPlayer(player, homeName + homeSuff, usedItem);
 
     }
 
@@ -100,30 +100,29 @@ public class TeleportListener implements Listener {
         BukkitTask teleportTask = Bukkit.getScheduler().runTaskLater(plugin, () -> {
             Location targetLocation = warp.getLocation();
 
-            if(player.getInventory().containsAtLeast(usedItem,1)){
+            if (player.getInventory().containsAtLeast(usedItem, 1)) {
                 ItemStack useItem = usedItem.clone();
                 useItem.setAmount(1);
                 player.getInventory().removeItem(useItem);
                 player.teleport(targetLocation);
 
 
-            String soundName = config.getString("teleport-sound", "ENTITY_ENDERMAN_TELEPORT");
-            String effectName = config.getString("teleport-effect", "ENDER_SIGNAL");
+                String soundName = config.getString("teleport-sound", "ENTITY_ENDERMAN_TELEPORT");
+                String effectName = config.getString("teleport-effect", "ENDER_SIGNAL");
 
-            Sound sound = Sound.valueOf(soundName);
-            Effect effect = Effect.valueOf(effectName);
+                Sound sound = Sound.valueOf(soundName);
+                Effect effect = Effect.valueOf(effectName);
 
-            World world = targetLocation.getWorld();
-            world.playSound(targetLocation, sound, 1, 1);
-            world.playEffect(targetLocation, effect, 10);
+                World world = targetLocation.getWorld();
+                world.playSound(targetLocation, sound, 1, 1);
+                world.playEffect(targetLocation, effect, 10);
 
-            String successMessage = config.getString("messages.teleport-success");
-            if (successMessage != null) {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', successMessage.replace("{warp-name}", warp.getName())));
-            }
-            //player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
-            }else
-            {
+                String successMessage = config.getString("messages.teleport-success");
+                if (successMessage != null) {
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', successMessage.replace("{warp-name}", warp.getName())));
+                }
+                //player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+            } else {
                 String successMessage = config.getString("messages.teleport-error");
                 if (successMessage != null) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', successMessage.replace("{warp-name}", warp.getName())));
@@ -140,6 +139,7 @@ public class TeleportListener implements Listener {
         // Store the task in the map
         teleportTasks.put(playerUUID, teleportTask);
     }
+
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();

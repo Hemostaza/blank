@@ -6,3 +6,6 @@ commands:
   blank:
     description: pesnis
     usage: fakju
+  transferexp:
+    description: transfer exp to the holding bottles
+    usage: chuj?

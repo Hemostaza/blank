@@ -1,11 +1,14 @@
 package com.hemostaza.blank.items;
 
 import com.hemostaza.blank.BlankPlugin;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemRarity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +18,18 @@ public class ItemManager {
 
     public static ItemStack paper;
     public static ItemStack houseCreator;
+    public static ItemStack weakExpBottle;
+    public static ItemStack mediumExpBottle;
+    public static ItemStack strongExpBottle;
 
     public static void init(BlankPlugin plugin){
 
         config = plugin.getConfig();
         createPaper();
         createHouseCreator();
+        createWeakExpPotion();
+        createMediumExpPotion();
+        createStrongExpPotion();
     }
 
     private static void createPaper() {
@@ -65,5 +74,50 @@ public class ItemManager {
         meta.setLore(lore);
         item.setItemMeta(meta);
         houseCreator = item;
+    }
+
+    private static void createWeakExpPotion(){
+        ItemStack potion = new ItemStack(Material.POTION,1);
+        PotionMeta meta = (PotionMeta) potion.getItemMeta();
+        assert meta != null;
+        meta.setDisplayName(config.getString("weak_potion.name"));
+        List<String> lore = new ArrayList<>();
+        lore.add(config.getString("weak_potion.lore.l1"));
+        lore.add(config.getString("weak_potion.lore.l2"));
+        meta.setLore(lore);
+        meta.setColor(Color.fromRGB(20,150,20));
+        meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+        potion.setItemMeta(meta);
+        weakExpBottle = potion;
+    }
+    private static void createMediumExpPotion(){
+        ItemStack potion = new ItemStack(Material.POTION,1);
+        PotionMeta meta = (PotionMeta) potion.getItemMeta();
+        assert meta != null;
+        meta.setDisplayName(config.getString("medium_potion.name"));
+        List<String> lore = new ArrayList<>();
+        lore.add(config.getString("medium_potion.lore.l1"));
+        lore.add(config.getString("medium_potion.lore.l2"));
+        meta.setLore(lore);
+        meta.setRarity(ItemRarity.UNCOMMON);
+        meta.setColor(Color.fromRGB(20,150,20));
+        meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+        potion.setItemMeta(meta);
+        mediumExpBottle = potion;
+    }
+    private static void createStrongExpPotion(){
+        ItemStack potion = new ItemStack(Material.POTION,1);
+        PotionMeta meta = (PotionMeta) potion.getItemMeta();
+        assert meta != null;
+        meta.setDisplayName(config.getString("strong_potion.name"));
+        List<String> lore = new ArrayList<>();
+        lore.add(config.getString("strong_potion.lore.l1"));
+        lore.add(config.getString("strong_potion.lore.l2"));
+        meta.setLore(lore);
+        meta.setRarity(ItemRarity.RARE);
+        meta.setColor(Color.fromRGB(20,150,20));
+        meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+        potion.setItemMeta(meta);
+        strongExpBottle = potion;
     }
 }
