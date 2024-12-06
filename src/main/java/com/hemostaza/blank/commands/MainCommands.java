@@ -30,7 +30,7 @@ public class MainCommands implements CommandExecutor {
         if(args[0].equalsIgnoreCase("patyk")){
 
             ItemStack item = ItemManager.houseCreator;
-            if(args[1]!=null){
+            if(args.length>1){
                 int amount = Integer.parseInt(args[1]);
                 item.setAmount(amount);
             }
@@ -38,7 +38,7 @@ public class MainCommands implements CommandExecutor {
         }
         if(args[0].equalsIgnoreCase("papier")){
             ItemStack item = ItemManager.paper;
-            if(args[1]!=null){
+            if((args.length>1)){
                 int amount = Integer.parseInt(args[1]);
                 item.setAmount(amount);
             }
@@ -46,7 +46,10 @@ public class MainCommands implements CommandExecutor {
         }
 
         if(args[0].equalsIgnoreCase("tp")){
-            teleportPlayer(p,args[1]+"#"+args[2],false,0);
+            if((args.length>2)){
+                teleportPlayer(p,args[1]+"#"+args[2],false,0);
+            }
+            sender.sendMessage("Chuj ci w dupe xD podaj 2 argumenty nazwe domu i gracza ");
         }
 
         return true;

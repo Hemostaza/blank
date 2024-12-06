@@ -1,3 +1,18 @@
+wanditem:
+  name: "Pałka domostwa"
+  lore:
+    l1: "Pałka do rejestracji domu."
+blankcouponitem:
+  name: "Czysty kupon powrotu"
+  lore:
+    l1: "Kupon który musisz najpierw"
+    l2: "połączyć z domem"
+couponitem:
+  name: "Kupon powrotu"
+  lore:
+    l1: "Kupon połączony z domem:"
+    
+
 # Custom messages
 messages:
   create_permission: "&cYou do not have the required permissions to create warp signs!"

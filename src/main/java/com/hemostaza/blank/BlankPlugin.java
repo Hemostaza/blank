@@ -18,12 +18,12 @@ public class BlankPlugin extends JavaPlugin implements Listener {
         //create db
         Warp.createTable();
 
-        PluginCommand command = getCommand("bd");
+        PluginCommand command = getCommand("blank");
         if(command!=null){
             MainCommands mc = new MainCommands(this);
             command.setExecutor(mc);
         }
-        ItemManager.init();
+        ItemManager.init(this);
         getServer().getPluginManager().registerEvents(new HomeWandListener(this), this);
         getServer().getPluginManager().registerEvents(new CreatingCouponListener(this), this);
         getServer().getPluginManager().registerEvents(new TeleportListener(this), this);

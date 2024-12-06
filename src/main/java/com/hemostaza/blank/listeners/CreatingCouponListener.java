@@ -42,7 +42,7 @@ public class CreatingCouponListener implements Listener {
 
         String signHomeName = signData.warpName;
 
-        if (Utils.isValidMeta(player, "Kupon powrotu", signHomeName) || Utils.isValidMeta(player, ItemManager.paper.getItemMeta())) {
+        if (Utils.isValidMeta(player, config.getString("couponitem.name"), signHomeName) || Utils.isValidMeta(player, ItemManager.paper.getItemMeta())) {
 
             if (!signData.isHomeSign()) {
                 return;

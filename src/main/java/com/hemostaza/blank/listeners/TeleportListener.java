@@ -49,7 +49,7 @@ public class TeleportListener implements Listener {
         if(metaInHand==null){
             return;
         }
-        if(!metaInHand.getDisplayName().equals("Kupon powrotu")){
+        if(!metaInHand.getDisplayName().equals(config.getString("couponitem.name"))){
             return;
         }
         String homeName = metaInHand.getLore().get(1);

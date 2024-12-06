@@ -3,6 +3,6 @@ version: '1.0.0'
 main: com.hemostaza.blank.BlankPlugin
 api-version: '1.21.3'
 commands:
-  bd:
+  blank:
     description: pesnis
     usage: fakju

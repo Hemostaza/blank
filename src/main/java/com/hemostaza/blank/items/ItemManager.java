@@ -1,6 +1,9 @@
 package com.hemostaza.blank.items;
 
+import com.hemostaza.blank.BlankPlugin;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.ItemRarity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -8,11 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemManager {
+    private static FileConfiguration config;
 
     public static ItemStack paper;
     public static ItemStack houseCreator;
 
-    public static void init(){
+    public static void init(BlankPlugin plugin){
+
+        config = plugin.getConfig();
         createPaper();
         createHouseCreator();
     }
@@ -20,10 +26,11 @@ public class ItemManager {
     private static void createPaper() {
         ItemStack item = new ItemStack(Material.PAPER, 1);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("Czysty kupon powrotu");
+        assert meta != null;
+        meta.setDisplayName(config.getString("blankcouponitem.name"));
         List<String> lore = new ArrayList<>();
-        lore.add("Czysty kupon powrotu,");
-        lore.add("który musisz połączyć z domem.");
+        lore.add(config.getString("blankcouponitem.lore.l1"));
+        lore.add(config.getString("blankcouponitem.lore.l2"));
         meta.setLore(lore);
         item.setItemMeta(meta);
         paper = item;
@@ -35,9 +42,12 @@ public class ItemManager {
     public static ItemStack createTeleportPaper(String homename, String homeSuff, int amount){
         ItemStack item = new ItemStack(Material.PAPER,amount);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("Kupon powrotu");
+        assert meta != null;
+        meta.setDisplayName(config.getString("couponitem.name"));
+        meta.setRarity(ItemRarity.RARE);
+        meta.setEnchantmentGlintOverride(true);
         List<String> lore = new ArrayList<>();
-        lore.add("Kupon powrotu do domu:");
+        lore.add(config.getString("couponitem.lore.l1"));
         lore.add(homename);
         lore.add(homeSuff);
         meta.setLore(lore);
@@ -46,12 +56,12 @@ public class ItemManager {
     }
 
     private static void createHouseCreator(){
-        ItemStack item = new ItemStack(Material.BLAZE_ROD,1);
+        ItemStack item = new ItemStack(Material.STICK,1);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("Pałka domostwa");
+        assert meta != null;
+        meta.setDisplayName(config.getString("wanditem.name"));
         List<String> lore = new ArrayList<>();
-        lore.add("Pałka do rejestracji domu");
-        lore.add("daunie");
+        lore.add(config.getString("wanditem.lore.l1"));
         meta.setLore(lore);
         item.setItemMeta(meta);
         houseCreator = item;
