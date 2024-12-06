@@ -75,7 +75,9 @@ public class ExperiencePotionListener implements Listener {
             return;
         }
         ExperienceUtils.changeExp(player,-potionDeExp);
-        player.getInventory().getItemInMainHand().setAmount(0);
+        ItemStack itemInHand = player.getInventory().getItemInMainHand();
+        int amount = itemInHand.getAmount()-1;
+        itemInHand.setAmount(amount);
         player.getInventory().addItem(potionExp);
     }
     private void drinkExpPotion(Player player,int potionExp){
