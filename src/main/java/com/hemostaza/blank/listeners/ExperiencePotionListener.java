@@ -76,9 +76,12 @@ public class ExperiencePotionListener implements Listener {
         }
         ExperienceUtils.changeExp(player,-potionDeExp);
         ItemStack itemInHand = player.getInventory().getItemInMainHand();
+
+        player.getInventory().addItem(potionExp);
+
         int amount = itemInHand.getAmount()-1;
         itemInHand.setAmount(amount);
-        player.getInventory().addItem(potionExp);
+        event.setCancelled(true);
     }
     private void drinkExpPotion(Player player,int potionExp){
         ExperienceOrb expOrb = (ExperienceOrb)player.getWorld().spawnEntity(player.getLocation(),EntityType.EXPERIENCE_ORB);
