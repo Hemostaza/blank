@@ -85,9 +85,10 @@ public class ItemManager {
         lore.add(config.getString("weak_potion.lore.l1"));
         lore.add(config.getString("weak_potion.lore.l2"));
         meta.setLore(lore);
-        meta.setColor(Color.fromRGB(20,150,20));
+        meta.setColor(Color.fromRGB(94,124,22));
         meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
         potion.setItemMeta(meta);
+        meta.setEnchantmentGlintOverride(true);
         weakExpBottle = potion;
     }
     private static void createMediumExpPotion(){
@@ -100,9 +101,10 @@ public class ItemManager {
         lore.add(config.getString("medium_potion.lore.l2"));
         meta.setLore(lore);
         meta.setRarity(ItemRarity.UNCOMMON);
-        meta.setColor(Color.fromRGB(20,150,20));
+        meta.setColor(Color.fromRGB(128,199,31));
         meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
         potion.setItemMeta(meta);
+        meta.setEnchantmentGlintOverride(true);
         mediumExpBottle = potion;
     }
     private static void createStrongExpPotion(){
@@ -115,8 +117,9 @@ public class ItemManager {
         lore.add(config.getString("strong_potion.lore.l2"));
         meta.setLore(lore);
         meta.setRarity(ItemRarity.RARE);
-        meta.setColor(Color.fromRGB(20,150,20));
+        meta.setColor(Color.fromRGB(150,239,72));
         meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+        meta.setEnchantmentGlintOverride(true);
         potion.setItemMeta(meta);
         strongExpBottle = potion;
     }

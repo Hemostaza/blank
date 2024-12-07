@@ -29,6 +29,7 @@ public class BlankPlugin extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new TeleportListener(this), this);
         getServer().getPluginManager().registerEvents(new DestroyListener(this), this);
         getServer().getPluginManager().registerEvents(new ExperiencePotionListener(this), this);
+        getServer().getPluginManager().registerEvents(new BrewingListener(this), this);
         getLogger().info("onEnable is called!");
     }
     @Override

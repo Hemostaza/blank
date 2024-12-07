@@ -29,7 +29,12 @@ strong_potion:
   lore:
     l1: "Duża ilość doświadczenia"
     l2: "w płynie lol xD"
-    
+potion:
+  lore:
+    l1: "Możesz ją wypić"
+    l2: "by napełnić ją"
+    l3: "swoim doświadczeniem."
+
 
 # Custom messages
 messages:
