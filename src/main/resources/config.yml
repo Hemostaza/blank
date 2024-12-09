@@ -10,7 +10,7 @@ blankcouponitem:
 couponitem:
   name: "Kupon powrotu"
   lore:
-    l1: "Kupon połączony z domem:"
+    l1: "Kupon połączony z miejscem:"
 weak_potion:
   exp: 100
   name: "Miksturka z doświadczeniem"
@@ -43,7 +43,7 @@ messages:
   not_enough_bottles: "Zbyt mało buteleczek mój panie"
   create_permission: "&cYou do not have the required permissions to create warp signs!"
   no_warp_name: "&cNo warp name set!\nPlease specify the warp name on the second line."
-  warp_created: "&aWarp sign successfully placed."
+  warp_created: "&aWarp successfully placed."
   warp_name_taken: "&cA warp target with the same name already exists!"
   warp_destroyed: "&aWarp destroyed."
   target_sign_created: "&aTarget sign for warp successfully placed."

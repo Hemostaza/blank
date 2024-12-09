@@ -4,8 +4,5 @@ main: com.hemostaza.blank.BlankPlugin
 api-version: '1.21.3'
 commands:
   blank:
-    description: pesnis
-    usage: fakju
-  transferexp:
-    description: transfer exp to the holding bottles
-    usage: chuj?
+    description: give items or set warp
+    usage: /blank setwarp/delwarp ogólnie to chuj jak nie wiesz o co chodzi to pewnie nie powinienes meic uprawnień hujku

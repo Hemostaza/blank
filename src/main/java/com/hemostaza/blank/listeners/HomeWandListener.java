@@ -41,8 +41,6 @@ public class HomeWandListener implements Listener {
 
         if(Utils.isValidMeta(player, ItemManager.houseCreator.getItemMeta())){
 
-            String suff = "#"+player.getName();
-
             if(!signData.isHomeSign()){
                 return;
             }
@@ -56,6 +54,7 @@ public class HomeWandListener implements Listener {
                 return;
             }
 
+            String suff = "#"+player.getName();
             Warp existingWarp = Warp.getByName(signData.warpName+suff);
             if(existingWarp!=null){
                 String warpNameTakenMessage = config.getString("messages.warp_name_taken");
@@ -81,42 +80,5 @@ public class HomeWandListener implements Listener {
             sign.setWaxed(true);
             sign.update();
         }
-
-        //p.sendMessage("" + b.getState());
-//        if(p.isSneaking()) {
-//            if (p.getInventory().getItemInMainHand().getItemMeta().equals(ItemManager.houseCreator.getItemMeta())) {
-//                // Code goes here
-//                if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-//                    if (b.getState() instanceof Sign) {
-//                        Sign s = (Sign) b.getState();
-//                        String homeName = "";
-//                        String homeSuffix = "";
-//                        //Sprawdza czy jest poczatek na znaku
-//                        if (s.getTargetSide(p).getLine(0).equalsIgnoreCase("[dom]")) {
-//                            //if nie ma liniji 1 to error//
-//                            homeName = s.getSide(Side.FRONT).getLine(1);
-//                            homeSuffix = "randomowe letersy";
-//                            String fullname = homeName+homeSuffix;
-//                            s.getTargetSide(p).setLine(2, homeSuffix);
-//                            s.setWaxed(true);
-//                            s.update();
-//                        }
-//                        p.sendMessage("Create home");
-//                    }
-//                }
-//            }
-//            if (p.getInventory().getItemInMainHand().getItemMeta().equals(ItemManager.paper.getItemMeta())) {
-//                if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-//                    if (b.getState() instanceof Sign) {
-//                        //jeżlei warp istnieje dodac ifa
-//                        p.getInventory().getItemInMainHand().setAmount(p.getInventory().getItemInMainHand().getAmount() - 1);
-//                        Sign s = (Sign) b.getState();
-//                        String line = s.getTargetSide(p).getLines()[1];
-//                        p.getInventory().addItem(ItemManager.createTeleportPaper(line));
-//
-//                    }
-//                }
-//            }
-//        }
     }
 }

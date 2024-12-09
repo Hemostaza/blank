@@ -48,6 +48,7 @@ public class ItemManager {
     public static ItemStack createTeleportPaper(String homename,String homeSuff){
         return createTeleportPaper(homename,homeSuff,1);
     }
+
     public static ItemStack createTeleportPaper(String homename, String homeSuff, int amount){
         ItemStack item = new ItemStack(Material.PAPER,amount);
         ItemMeta meta = item.getItemMeta();

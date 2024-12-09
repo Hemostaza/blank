@@ -57,8 +57,9 @@ public class TeleportListener implements Listener {
         if (homeName == null) {
             return;
         }
+        //jak nie ma suffixu gracza to znaczy ze to warp adminowy
         if (homeSuff == null) {
-            return;
+            homeSuff = "";
         }
 
         ItemStack usedItem = player.getInventory().getItemInMainHand();

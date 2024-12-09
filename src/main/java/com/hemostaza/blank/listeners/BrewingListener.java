@@ -38,7 +38,6 @@ public class BrewingListener implements Listener {
                 }
                 if(pm.getBasePotionType().equals(PotionType.AWKWARD) || pm.getBasePotionType().equals(PotionType.THICK)
                 || pm.getBasePotionType().equals(PotionType.MUNDANE)){
-                    Bukkit.getLogger().info("Potion craft?");
                     List<String> lore = new ArrayList<>();
                     lore.add(config.getString("potion.lore.l1"));
                     lore.add(config.getString("potion.lore.l2"));

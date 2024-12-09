@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class CreatingCouponListener implements Listener {
     private final BlankPlugin plugin;
@@ -59,7 +60,7 @@ public class CreatingCouponListener implements Listener {
 
             Warp existingWarp = Warp.getByName(signData.warpName + signData.warpNameSuf);
             if (existingWarp == null) {
-                String warpNameTakenMessage = "WArrp nie istnieje kurwiju cos zjebales";
+                String warpNameTakenMessage = config.getString("messages.warp_name_taken");
                 if (warpNameTakenMessage != null) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', warpNameTakenMessage));
                 }

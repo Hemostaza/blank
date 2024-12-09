@@ -64,8 +64,6 @@ public class ExperiencePotionListener implements Listener {
             drinkDeexpPotion(player, event, config.getInt("strong_potion.exp"),ItemManager.strongExpBottle);
             return;
         }
-
-
     }
 
     private void drinkDeexpPotion(Player player, PlayerItemConsumeEvent event, int potionDeExp, ItemStack potionExp){
@@ -83,6 +81,7 @@ public class ExperiencePotionListener implements Listener {
         itemInHand.setAmount(amount);
         event.setCancelled(true);
     }
+
     private void drinkExpPotion(Player player,int potionExp){
         ExperienceOrb expOrb = (ExperienceOrb)player.getWorld().spawnEntity(player.getLocation(),EntityType.EXPERIENCE_ORB);
         expOrb.setExperience(potionExp);

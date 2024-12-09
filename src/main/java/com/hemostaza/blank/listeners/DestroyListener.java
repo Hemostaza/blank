@@ -79,15 +79,13 @@ public class DestroyListener implements Listener {
         block.getWorld().dropItem(block.getLocation(),ItemManager.houseCreator);
 
         warp.remove();
-
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages.warp_destroyed")));
+        String message = config.getString("messages.warp_destroyed");
+        if(message!=null){
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+        }
     }
     private boolean hasBlockWarpSign(Block block) {
         return SignUtils.hasBlockSign(block, this::isWarpSign);
-    }
-
-    private boolean hasBlockWarpSign(List<Block> blocks) {
-        return SignUtils.hasBlockSign(blocks, this::isWarpSign);
     }
 
     private boolean isWarpSign(Sign signBlock) {
