@@ -61,13 +61,23 @@ public class DestroyListener implements Listener {
 
         Player player = event.getPlayer();
 
-        if (!player.hasPermission("signwarp.create")) {
+        if (!player.hasPermission("homedepot.destroy")) {
             String noPermissionMessage = config.getString("messages.destroy_permission");
             if (noPermissionMessage != null) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermissionMessage));
             }
             event.setCancelled(true);
             return;
+        }
+        if(!signData.warpNameSuf.equals(player.getName())){
+            if (!player.hasPermission("homedepot.remove")) {
+                String noPermissionMessage = config.getString("messages.destroy_permission");
+                if (noPermissionMessage != null) {
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermissionMessage));
+                }
+                event.setCancelled(true);
+                return;
+            }
         }
 
         Warp warp = Warp.getByName(signData.warpName+signData.warpNameSuf);

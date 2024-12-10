@@ -1,5 +1,6 @@
 package com.hemostaza.blank;
 
+import com.hemostaza.blank.commands.BuyCommands;
 import com.hemostaza.blank.commands.MainCommands;
 import com.hemostaza.blank.commands.TransferExp;
 import com.hemostaza.blank.items.ItemManager;
@@ -16,12 +17,27 @@ public class BlankPlugin extends JavaPlugin implements Listener {
         //create db
         Warp.createTable();
 
-        PluginCommand command = getCommand("blank");
+        PluginCommand command = getCommand("homedepot");
         if(command!=null){
             MainCommands mc = new MainCommands(this);
             command.setExecutor(mc);
         }
-        //getServer().getPluginCommand("transferexp").setExecutor(new TransferExp(this));
+        PluginCommand buyCommand = getCommand("homedepotbuy");
+        if(buyCommand!=null){
+            BuyCommands bc = new BuyCommands(this);
+            buyCommand.setExecutor(bc);
+        }
+
+        // Setup Vault economy if available
+        if (getServer().getPluginManager().getPlugin("Vault") != null) {
+            if (!VaultEconomy.setupEconomy()) {
+                getLogger().warning("Vault is installed but economy setup failed.");
+            } else {
+                getLogger().info("Vault economy setup successfully.");
+            }
+        } else {
+            getLogger().warning("Vault not found. Economy features are disabled.");
+        }
 
         ItemManager.init(this);
         getServer().getPluginManager().registerEvents(new HomeWandListener(this), this);

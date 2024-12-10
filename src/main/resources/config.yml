@@ -2,11 +2,13 @@ wanditem:
   name: "Pałka domostwa"
   lore:
     l1: "Pałka do rejestracji domu."
+  cost: 10
 blankcouponitem:
   name: "Czysty kupon powrotu"
   lore:
     l1: "Kupon który musisz najpierw"
     l2: "połączyć z domem"
+  cost: 1
 couponitem:
   name: "Kupon powrotu"
   lore:
@@ -15,33 +17,35 @@ weak_potion:
   exp: 100
   name: "Miksturka z doświadczeniem"
   lore:
-    l1: "Niewielka ilość doświadczenia"
-    l2: "w płynie."
+    l1: "Niewielka ilość"
+    l2: "doświadczenia w płynie."
 medium_potion:
   exp: 500
   name: "Misktura z doświadczeniem"
   lore:
     l1: "Doświadczenie w płynie."
-    l2: "hehe"
+    l2: ""
 strong_potion:
   exp: 1500
   name: "Mikstura z doświadczeniem"
   lore:
-    l1: "Duża ilość doświadczenia"
-    l2: "w płynie lol xD"
+    l1: "Duże ilości"
+    l2: "doświadczenia w płynie."
 potion:
   lore:
     l1: "Możesz ją wypić"
-    l2: "by napełnić ją"
+    l2: "by napełnić"
     l3: "swoim doświadczeniem."
-
 
 # Custom messages
 messages:
   wrong_stack_amount: "Podaj prawidłowy rozmiar"
   not_enough_exp: "Za mało expa milordzie"
   not_enough_bottles: "Zbyt mało buteleczek mój panie"
-  create_permission: "&cYou do not have the required permissions to create warp signs!"
+  not_enough_for_wand: "Za malo hajsu na pałke"
+  not_enough_for_paper: "Za mało ahjsu na papierek"
+  you_payed: "You pay {cost} for {amount} {item}"
+  create_permission: "&cYou do not have the required permissions to create home signs!"
   no_warp_name: "&cNo warp name set!\nPlease specify the warp name on the second line."
   warp_created: "&aWarp successfully placed."
   warp_name_taken: "&cA warp target with the same name already exists!"

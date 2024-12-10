@@ -44,6 +44,13 @@ public class HomeWandListener implements Listener {
             if(!signData.isHomeSign()){
                 return;
             }
+            if(!player.hasPermission("homedepot.create")){
+                String message = config.getString("messages.create_permission");
+                if(message!=null){
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+                }
+                return;
+            }
             if(!signData.isValidHomeName()){
 
                 String noWarpNameMessage = config.getString("messages.no_warp_name");

@@ -2,7 +2,45 @@ name: 'Blank'
 version: '1.0.0'
 main: com.hemostaza.blank.BlankPlugin
 api-version: '1.21.3'
+softdepend:
+  - Vault
 commands:
-  blank:
-    description: give items or set warp
-    usage: /blank setwarp/delwarp ogólnie to chuj jak nie wiesz o co chodzi to pewnie nie powinienes meic uprawnień hujku
+  homedepot:
+    description: "Manage homedepot commands"
+    usage: "/homedepot <subcommand>"
+    aliases: ["hd"]
+  homedepotbuy:
+    description: "Buy items necessary for registering house"
+    usage: "/homedepotbuy <registerer/coupon/howmuch>"
+    aliases: ["hdbuy","hdb"]
+permissions:
+  homedepot.*:
+    children:
+      - homedepot.create
+      - homedepot.use
+      - homedepot.destroy
+      - homedepot.buywand
+      - homedepot.buypaper
+      - homedepot.commands
+      - homedepot.remove
+  homedepot.create:
+    description: "Allows you to create home signs"
+    default: true
+  homedepot.use:
+    description: "Allow uses of home signs"
+    default: true
+  homedepot.destroy:
+    description: "Allows you to destroy your sign"
+    default: true
+  homedepot.buywand:
+    description: "Allows you to buy wand"
+    default: true
+  homedepot.buypaper:
+    description: "Allows you to buy papers"
+    default: true
+  homedepot.commands:
+    description: "Allows you to use op commands"
+    default: op
+  homedepot.remove:
+    description: "Allows you to remove home sign"
+    default: op

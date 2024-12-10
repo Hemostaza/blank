@@ -37,7 +37,7 @@ public class MainCommands implements CommandExecutor, TabCompleter {
         if(args==null){
             return true;
         }
-        if(!sender.hasPermission("group.admin")){
+        if(!sender.hasPermission("homedepot.commands")){
             return true;
         }
         if(args[0].equalsIgnoreCase("wand")){
