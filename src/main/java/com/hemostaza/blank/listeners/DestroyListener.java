@@ -69,7 +69,7 @@ public class DestroyListener implements Listener {
             event.setCancelled(true);
             return;
         }
-        if(!signData.warpNameSuf.equals(player.getName())){
+        if(!signData.warpNameSuf.equals("#"+player.getName())){
             if (!player.hasPermission("homedepot.remove")) {
                 String noPermissionMessage = config.getString("messages.destroy_permission");
                 if (noPermissionMessage != null) {

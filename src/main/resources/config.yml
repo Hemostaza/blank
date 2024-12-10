@@ -1,7 +1,7 @@
 wanditem:
-  name: "Pałka domostwa"
+  name: "Rejestrator domu"
   lore:
-    l1: "Pałka do rejestracji domu."
+    l1: "Z tym zarejestrujesz dom."
   cost: 10
 blankcouponitem:
   name: "Czysty kupon powrotu"
@@ -39,11 +39,10 @@ potion:
 
 # Custom messages
 messages:
-  wrong_stack_amount: "Podaj prawidłowy rozmiar"
-  not_enough_exp: "Za mało expa milordzie"
-  not_enough_bottles: "Zbyt mało buteleczek mój panie"
-  not_enough_for_wand: "Za malo hajsu na pałke"
-  not_enough_for_paper: "Za mało ahjsu na papierek"
+  wrong_stack_amount: "Podaj prawidłowy rozmiar stosu"
+  not_enough_exp: "Nie posiadasz wystarczającej ilości doświadczenia."
+  not_enough_bottles: "Masz zbyt mało buteleczek."
+  not_enough_for_item: "Nie stać cię na {item}."
   you_payed: "You pay {cost} for {amount} {item}"
   create_permission: "&cYou do not have the required permissions to create home signs!"
   no_warp_name: "&cNo warp name set!\nPlease specify the warp name on the second line."

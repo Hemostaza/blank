@@ -59,7 +59,10 @@ public class BuyCommands implements CommandExecutor, TabCompleter {
                 if (economy!=null){
                     int cost = amount*wandCost;
                     if(economy.getBalance(player) < cost) {
-                    player.sendMessage(ChatColor.RED + config.getString("messages.not_enough_for_wand"));
+                        String message = config.getString("messages.not_enough_for_item");
+                        if(message!=null){
+                            player.sendMessage(ChatColor.RED + message.replace("{item}","registerer"));
+                        }
                         return true;
                     }else{
                         String message = config.getString("messages.you_payed");
@@ -95,8 +98,10 @@ public class BuyCommands implements CommandExecutor, TabCompleter {
                 if (economy!=null){
                     int cost = amount*couponCost;
                     if(economy.getBalance(player) < cost) {
-                        player.sendMessage(ChatColor.RED + config.getString("messages.not_enough_for_coupon"));
-                        return true;
+                        String message = config.getString("messages.not_enough_for_item");
+                        if(message!=null){
+                            player.sendMessage(ChatColor.RED + message.replace("{item}","coupon"));
+                        }
                     }else{
                         String message = config.getString("messages.you_payed");
                         if(message!=null){
