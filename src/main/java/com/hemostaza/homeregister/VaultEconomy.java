@@ -1,4 +1,4 @@
-package com.hemostaza.blank;
+package com.hemostaza.homeregister;
 
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;

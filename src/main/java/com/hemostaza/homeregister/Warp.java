@@ -1,4 +1,4 @@
-package com.hemostaza.blank;
+package com.hemostaza.homeregister;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Warp {
-    private static final String DB_URL = "jdbc:sqlite:" + JavaPlugin.getPlugin(BlankPlugin.class).getDataFolder() + File.separator + "warps.db";
+    private static final String DB_URL = "jdbc:sqlite:" + JavaPlugin.getPlugin(MainPlugin.class).getDataFolder() + File.separator + "warps.db";
     private final String warpName;
     private final Location location;
     private final String createdAt;

@@ -1,4 +1,4 @@
-package com.hemostaza.blank.utils;
+package com.hemostaza.homeregister.utils;
 
 import org.bukkit.entity.Player;
 

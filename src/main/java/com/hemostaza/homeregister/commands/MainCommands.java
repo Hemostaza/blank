@@ -1,22 +1,19 @@
-package com.hemostaza.blank.commands;
+package com.hemostaza.homeregister.commands;
 
-import com.hemostaza.blank.Warp;
-import com.hemostaza.blank.items.ItemManager;
+import com.hemostaza.homeregister.Warp;
+import com.hemostaza.homeregister.items.ItemManager;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class MainCommands implements CommandExecutor, TabCompleter {
 
@@ -30,7 +27,7 @@ public class MainCommands implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if(!(sender instanceof Player player)){
-            sender.sendMessage("Chuj ci w dupe xD");
+            sender.sendMessage("Only players can use this command");
             return true;
         }
 
@@ -38,6 +35,10 @@ public class MainCommands implements CommandExecutor, TabCompleter {
             return true;
         }
         if(!sender.hasPermission("homedepot.commands")){
+            String noPermissionMessage = config.getString("messages.destroy_permission");
+            if (noPermissionMessage != null) {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermissionMessage));
+            }
             return true;
         }
         if(args[0].equalsIgnoreCase("wand")){

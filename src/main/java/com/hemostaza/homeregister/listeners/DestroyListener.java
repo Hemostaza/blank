@@ -1,10 +1,10 @@
-package com.hemostaza.blank.listeners;
+package com.hemostaza.homeregister.listeners;
 
-import com.hemostaza.blank.BlankPlugin;
-import com.hemostaza.blank.SignData;
-import com.hemostaza.blank.utils.SignUtils;
-import com.hemostaza.blank.Warp;
-import com.hemostaza.blank.items.ItemManager;
+import com.hemostaza.homeregister.MainPlugin;
+import com.hemostaza.homeregister.SignData;
+import com.hemostaza.homeregister.utils.SignUtils;
+import com.hemostaza.homeregister.Warp;
+import com.hemostaza.homeregister.items.ItemManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -18,14 +18,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
 import java.io.IOException;
-import java.util.List;
 
 public class DestroyListener implements Listener {
-    private final BlankPlugin plugin;
+    private final MainPlugin plugin;
     private static FileConfiguration config;
 
 
-    public DestroyListener(BlankPlugin plugin) {
+    public DestroyListener(MainPlugin plugin) {
         this.plugin = plugin;
         config = plugin.getConfig();
     }
@@ -61,14 +60,19 @@ public class DestroyListener implements Listener {
 
         Player player = event.getPlayer();
 
+        //if player is owner
         if (!player.hasPermission("homedepot.destroy")) {
             String noPermissionMessage = config.getString("messages.destroy_permission");
             if (noPermissionMessage != null) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermissionMessage));
             }
             event.setCancelled(true);
+            signBlock.getSide(Side.FRONT).setLine(0,"[HOME]");
+            signBlock.getSide(Side.FRONT).setLine(1,signData.warpName);
+            signBlock.getSide(Side.FRONT).setLine(2,signData.warpNameSuf);
             return;
         }
+        //if player isn't owner
         if(!signData.warpNameSuf.equals("#"+player.getName())){
             if (!player.hasPermission("homedepot.remove")) {
                 String noPermissionMessage = config.getString("messages.destroy_permission");
@@ -76,6 +80,9 @@ public class DestroyListener implements Listener {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermissionMessage));
                 }
                 event.setCancelled(true);
+                signBlock.getSide(Side.FRONT).setLine(0,"[HOME]");
+                signBlock.getSide(Side.FRONT).setLine(1,signData.warpName);
+                signBlock.getSide(Side.FRONT).setLine(2,signData.warpNameSuf);
                 return;
             }
         }

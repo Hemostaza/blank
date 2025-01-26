@@ -1,6 +1,6 @@
-package com.hemostaza.blank.utils;
+package com.hemostaza.homeregister.utils;
 
-import com.hemostaza.blank.BlockUtils;
+import com.hemostaza.homeregister.BlockUtils;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;

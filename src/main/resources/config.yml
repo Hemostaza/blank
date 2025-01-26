@@ -1,47 +1,25 @@
 wanditem:
   name: "Rejestrator domu"
   lore:
-    l1: "Z tym zarejestrujesz dom."
+    - "Z tym zarejestrujesz dom."
   cost: 10
+  canbuy: true
 blankcouponitem:
   name: "Czysty kupon powrotu"
   lore:
-    l1: "Kupon który musisz najpierw"
-    l2: "połączyć z domem"
+    - "Kupon który musisz najpierw"
+    - "połączyć z domem"
   cost: 1
+  canbuy: true
 couponitem:
   name: "Kupon powrotu"
   lore:
-    l1: "Kupon połączony z miejscem:"
-weak_potion:
-  exp: 100
-  name: "Miksturka z doświadczeniem"
-  lore:
-    l1: "Niewielka ilość"
-    l2: "doświadczenia w płynie."
-medium_potion:
-  exp: 500
-  name: "Misktura z doświadczeniem"
-  lore:
-    l1: "Doświadczenie w płynie."
-    l2: ""
-strong_potion:
-  exp: 1500
-  name: "Mikstura z doświadczeniem"
-  lore:
-    l1: "Duże ilości"
-    l2: "doświadczenia w płynie."
-potion:
-  lore:
-    l1: "Możesz ją wypić"
-    l2: "by napełnić"
-    l3: "swoim doświadczeniem."
+    - "Kupon połączony z miejscem:"
 
 # Custom messages
 messages:
   wrong_stack_amount: "Podaj prawidłowy rozmiar stosu"
-  not_enough_exp: "Nie posiadasz wystarczającej ilości doświadczenia."
-  not_enough_bottles: "Masz zbyt mało buteleczek."
+  buying_disable: "Kupowanie przedmiotów jest wyłączone"
   not_enough_for_item: "Nie stać cię na {item}."
   you_payed: "You pay {cost} for {amount} {item}"
   create_permission: "&cYou do not have the required permissions to create home signs!"

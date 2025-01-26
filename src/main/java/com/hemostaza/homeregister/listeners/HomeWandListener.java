@@ -1,11 +1,11 @@
-package com.hemostaza.blank.listeners;
+package com.hemostaza.homeregister.listeners;
 
-import com.hemostaza.blank.BlankPlugin;
-import com.hemostaza.blank.SignData;
-import com.hemostaza.blank.utils.SignUtils;
-import com.hemostaza.blank.Warp;
-import com.hemostaza.blank.items.ItemManager;
-import com.hemostaza.blank.utils.Utils;
+import com.hemostaza.homeregister.MainPlugin;
+import com.hemostaza.homeregister.SignData;
+import com.hemostaza.homeregister.utils.SignUtils;
+import com.hemostaza.homeregister.Warp;
+import com.hemostaza.homeregister.items.ItemManager;
+import com.hemostaza.homeregister.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -15,12 +15,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class HomeWandListener implements Listener {
-    private final BlankPlugin plugin;
+    private final MainPlugin plugin;
     private static FileConfiguration config;
 
-    public HomeWandListener(BlankPlugin plugin) {
+    public HomeWandListener(MainPlugin plugin) {
         this.plugin = plugin;
         config = plugin.getConfig();
     }
@@ -39,7 +40,11 @@ public class HomeWandListener implements Listener {
         }
         SignData signData = new SignData(sign.getSide(Side.FRONT).getLines());
 
-        if(Utils.isValidMeta(player, ItemManager.houseCreator.getItemMeta())){
+        ItemMeta metaInHand = player.getInventory().getItemInMainHand().getItemMeta();
+        if (metaInHand == null) {
+            return;
+        }
+        if(metaInHand.equals(ItemManager.houseCreator.getItemMeta())){
 
             if(!signData.isHomeSign()){
                 return;

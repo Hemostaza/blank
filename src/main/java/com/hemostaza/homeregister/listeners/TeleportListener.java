@@ -1,9 +1,9 @@
-package com.hemostaza.blank.listeners;
+package com.hemostaza.homeregister.listeners;
 
-import com.hemostaza.blank.BlankPlugin;
-import com.hemostaza.blank.utils.SignUtils;
-import com.hemostaza.blank.Warp;
-import com.hemostaza.blank.utils.Utils;
+import com.hemostaza.homeregister.MainPlugin;
+import com.hemostaza.homeregister.utils.SignUtils;
+import com.hemostaza.homeregister.Warp;
+import com.hemostaza.homeregister.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -22,12 +22,12 @@ import java.util.HashSet;
 import java.util.UUID;
 
 public class TeleportListener implements Listener {
-    private final BlankPlugin plugin;
+    private final MainPlugin plugin;
     private static FileConfiguration config;
     private final HashMap<UUID, BukkitTask> teleportTasks = new HashMap<>();
     private final HashSet<UUID> invinciblePlayers = new HashSet<>();
 
-    public TeleportListener(BlankPlugin plugin) {
+    public TeleportListener(MainPlugin plugin) {
         this.plugin = plugin;
         config = plugin.getConfig();
     }

@@ -1,15 +1,15 @@
-package com.hemostaza.blank;
+package com.hemostaza.homeregister;
 
-import com.hemostaza.blank.commands.BuyCommands;
-import com.hemostaza.blank.commands.MainCommands;
-import com.hemostaza.blank.commands.TransferExp;
-import com.hemostaza.blank.items.ItemManager;
-import com.hemostaza.blank.listeners.*;
+import com.hemostaza.homeregister.commands.BuyCommands;
+import com.hemostaza.homeregister.commands.MainCommands;
+import com.hemostaza.homeregister.items.ItemManager;
+import com.hemostaza.homeregister.listeners.*;
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class BlankPlugin extends JavaPlugin implements Listener {
+public class MainPlugin extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
 
@@ -44,12 +44,12 @@ public class BlankPlugin extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new CreatingCouponListener(this), this);
         getServer().getPluginManager().registerEvents(new TeleportListener(this), this);
         getServer().getPluginManager().registerEvents(new DestroyListener(this), this);
-        getServer().getPluginManager().registerEvents(new ExperiencePotionListener(this), this);
-        getServer().getPluginManager().registerEvents(new BrewingListener(this), this);
         getLogger().info("onEnable is called!");
     }
     @Override
     public void onDisable() {
         getLogger().info("onDisable is called!");
     }
+
+    NamespacedKey key = new NamespacedKey(this,"luckPotion");
 }

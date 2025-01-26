@@ -1,12 +1,5 @@
-package com.hemostaza.blank.utils;
+package com.hemostaza.homeregister.utils;
 
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.HangingSign;
-import org.bukkit.block.Sign;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.type.WallSign;
-import org.bukkit.block.sign.Side;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -37,18 +30,5 @@ public class Utils {
             return false;
         }
         return metaInHand.equals(meta);
-    }
-
-    public static boolean isValidMeta(Player p, String name, String signHomeName) {
-        ItemMeta metaInHand;
-        metaInHand = p.getInventory().getItemInMainHand().getItemMeta();
-        if (metaInHand == null) {
-            return false;
-        }
-        String homeName = metaInHand.getLore().get(1);
-        if (homeName == null) {
-            return false;
-        }
-        return (metaInHand.getDisplayName().equals(name) && !homeName.equals(signHomeName));
     }
 }

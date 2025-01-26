@@ -1,7 +1,7 @@
-package com.hemostaza.blank.commands;
+package com.hemostaza.homeregister.commands;
 
-import com.hemostaza.blank.VaultEconomy;
-import com.hemostaza.blank.items.ItemManager;
+import com.hemostaza.homeregister.VaultEconomy;
+import com.hemostaza.homeregister.items.ItemManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -28,7 +28,7 @@ public class BuyCommands implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if(!(sender instanceof Player player)){
-            sender.sendMessage("Chuj ci w dupe xD");
+            sender.sendMessage("Only players can use this command");
             return true;
         }
         if(args==null){
@@ -37,7 +37,7 @@ public class BuyCommands implements CommandExecutor, TabCompleter {
 
         Economy economy = VaultEconomy.getEconomy();
         if(economy == null){
-            Bukkit.getLogger().info("Vault is required for teleportation cost, but it is not installed or enabled.");
+            Bukkit.getLogger().info("Vault is required to take cost, but it is not installed or enabled.");
         }
         if(args[0].equalsIgnoreCase("howmuch")){
             player.sendMessage("Registerer stick cost: "+ config.getInt("wanditem.cost"));
@@ -45,6 +45,13 @@ public class BuyCommands implements CommandExecutor, TabCompleter {
         }
         //kupno patyka
         if(args[0].equalsIgnoreCase("registerer")){
+            if(!config.getBoolean("wanditem.canbuy")){
+                String noPermissionMessage = config.getString("messages.buying_disable");
+                if (noPermissionMessage != null) {
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermissionMessage));
+                }
+                return true;
+            }
             int wandCost = config.getInt("wanditem.cost");
             int amount = 1;
             if((args.length>1)){
@@ -80,6 +87,13 @@ public class BuyCommands implements CommandExecutor, TabCompleter {
             player.getInventory().addItem(item);
         }
         if(args[0].equalsIgnoreCase("coupon")){
+            if(!config.getBoolean("blankcouponitem.canbuy")){
+                String noPermissionMessage = config.getString("messages.buying_disable");
+                if (noPermissionMessage != null) {
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermissionMessage));
+                }
+                return true;
+            }
             int couponCost = config.getInt("blankcouponitem.cost");
             int amount = 1;
             if((args.length>1)){
