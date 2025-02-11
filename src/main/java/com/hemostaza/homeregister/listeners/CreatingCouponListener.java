@@ -18,15 +18,23 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CreatingCouponListener implements Listener {
     private final MainPlugin plugin;
     private static FileConfiguration config;
+    private ItemManager itemManager;
+    Logger l;
 
     public CreatingCouponListener(MainPlugin plugin) {
         this.plugin = plugin;
+        l = plugin.getLogger();
+        this.itemManager = plugin.getItemManager();
         config = plugin.getConfig();
     }
 
@@ -40,20 +48,20 @@ public class CreatingCouponListener implements Listener {
         }
         //second check if this paper have proper meta
         ItemMeta metaInHand = itemInHand.getItemMeta();
-        if(metaInHand==null){
+        if (metaInHand == null) {
             return;
         }
 
         //check if it's old coupon
-        if(metaInHand.getDisplayName().equals(config.getString("couponitem.name"))){
+        if (metaInHand.getDisplayName().equals(config.getString("couponitem.name"))) {
             List<String> lore = metaInHand.getLore();
-            if(lore==null){
+            if (lore == null) {
                 return;
             }
-            if(lore.isEmpty()) {
+            if (lore.isEmpty()) {
                 return;
             }
-        }else if(!metaInHand.equals(ItemManager.paper.getItemMeta())){
+        } else if (!metaInHand.equals(ItemManager.paper.getItemMeta())) {
             return;
         }
 
@@ -93,12 +101,13 @@ public class CreatingCouponListener implements Listener {
             event.setCancelled(true);
             return;
         }
+        String fullWarpName = signData.warpName+signData.warpNameSuf;
         if (player.isSneaking()) {
             int quantity = player.getInventory().getItemInMainHand().getAmount();
-            player.getInventory().addItem(ItemManager.createTeleportPaper(signData.warpName, signData.warpNameSuf, quantity));
+            player.getInventory().addItem(itemManager.createTeleportPaper(fullWarpName, quantity));
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - quantity);
         } else {
-            player.getInventory().addItem(ItemManager.createTeleportPaper(signData.warpName, signData.warpNameSuf));
+            player.getInventory().addItem(itemManager.createTeleportPaper(fullWarpName));
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
         }
     }

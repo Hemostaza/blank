@@ -1,26 +1,29 @@
 wanditem:
-  name: "Rejestrator domu"
+  name: "Home registerer"
   lore:
-    - "Z tym zarejestrujesz dom."
+    - "With this item you can register"
+    - "Your home warp."
   cost: 10
   canbuy: true
 blankcouponitem:
-  name: "Czysty kupon powrotu"
+  name: "Blank warp ticket"
   lore:
-    - "Kupon który musisz najpierw"
-    - "połączyć z domem"
+    - "Blank ticket ready to link"
+    - "with home sign"
   cost: 1
   canbuy: true
-couponitem:
-  name: "Kupon powrotu"
-  lore:
-    - "Kupon połączony z miejscem:"
 
-# Custom messages
+# {warp} line is important to show where coupon lead to
+couponitem:
+  name: "Warp ticket"
+  lore:
+    - "Ticket linked to:"
+    - "{warp}"
+
 messages:
-  wrong_stack_amount: "Podaj prawidłowy rozmiar stosu"
-  buying_disable: "Kupowanie przedmiotów jest wyłączone"
-  not_enough_for_item: "Nie stać cię na {item}."
+  wrong_stack_amount: "Set valid stack value"
+  buying_disable: "Homedepot buy is disabled."
+  not_enough_for_item: "You don't have enough money to buy {item}."
   you_payed: "You pay {cost} for {amount} {item}"
   create_permission: "&cYou do not have the required permissions to create home signs!"
   no_warp_name: "&cNo warp name set!\nPlease specify the warp name on the second line."

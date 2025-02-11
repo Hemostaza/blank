@@ -1,5 +1,6 @@
 package com.hemostaza.homeregister.commands;
 
+import com.hemostaza.homeregister.MainPlugin;
 import com.hemostaza.homeregister.Warp;
 import com.hemostaza.homeregister.items.ItemManager;
 import org.bukkit.*;
@@ -17,9 +18,9 @@ import java.util.List;
 
 public class MainCommands implements CommandExecutor, TabCompleter {
 
-    private final JavaPlugin plugin;
+    private final MainPlugin plugin;
     private static FileConfiguration config;
-    public MainCommands(JavaPlugin plugin) {
+    public MainCommands(MainPlugin plugin) {
         this.plugin = plugin;
         config = plugin.getConfig();
     }
@@ -133,7 +134,7 @@ public class MainCommands implements CommandExecutor, TabCompleter {
                     }
                     return true;
                 }
-                player.getInventory().addItem(ItemManager.createTeleportPaper(warpName, "", 1));
+                player.getInventory().addItem(plugin.getItemManager().createTeleportPaper(warpName, 1));
             }
         }
 

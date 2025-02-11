@@ -10,6 +10,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MainPlugin extends JavaPlugin implements Listener {
+
+    private final NamespacedKey key = new NamespacedKey(this,"warpName");
+    private ItemManager im;
+
     @Override
     public void onEnable() {
 
@@ -39,10 +43,11 @@ public class MainPlugin extends JavaPlugin implements Listener {
             getLogger().warning("Vault not found. Economy features are disabled.");
         }
 
-        ItemManager.init(this);
-        getServer().getPluginManager().registerEvents(new HomeWandListener(this), this);
-        getServer().getPluginManager().registerEvents(new CreatingCouponListener(this), this);
-        getServer().getPluginManager().registerEvents(new TeleportListener(this), this);
+        im = new ItemManager(this);
+        //getServer().getPluginManager().registerEvents(new HomeWandListener(this), this);
+        //getServer().getPluginManager().registerEvents(new CreatingCouponListener(this), this);
+        //getServer().getPluginManager().registerEvents(new TeleportListener(this), this);
+        getServer().getPluginManager().registerEvents(new ItemListeners(this),this);
         getServer().getPluginManager().registerEvents(new DestroyListener(this), this);
         getLogger().info("onEnable is called!");
     }
@@ -51,5 +56,12 @@ public class MainPlugin extends JavaPlugin implements Listener {
         getLogger().info("onDisable is called!");
     }
 
-    NamespacedKey key = new NamespacedKey(this,"luckPotion");
+    public NamespacedKey getKey(){
+        return key;
+    }
+
+    public ItemManager getItemManager(){
+        return im;
+    }
+
 }

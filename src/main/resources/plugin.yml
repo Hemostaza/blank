@@ -9,6 +9,7 @@ commands:
     description: "Homedepot commands"
     usage: "/homedepot <subcommand>"
     aliases: ["hd"]
+    permission: homedepot.commands
   homedepotbuy:
     description: "Buy items necessary for registering house"
     usage: "/homedepotbuy <registerer/coupon/howmuch>"
