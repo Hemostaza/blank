@@ -1,15 +1,16 @@
 name: 'HomeRegistry'
 version: '1.0.0'
 main: com.hemostaza.homeregister.MainPlugin
-api-version: '1.21.3'
+api-version: '1.21'
 softdepend:
   - Vault
 commands:
   homedepot:
-    description: "Homedepot commands"
-    usage: "/homedepot <subcommand>"
+    description: "Main commands for HomeRegistry"
+    usage: "/homedepot <subcommands>"
     aliases: ["hd"]
     permission: homedepot.commands
+    permission-message: 'You do not have permission to run this command'
   homedepotbuy:
     description: "Buy items necessary for registering house"
     usage: "/homedepotbuy <registerer/coupon/howmuch>"

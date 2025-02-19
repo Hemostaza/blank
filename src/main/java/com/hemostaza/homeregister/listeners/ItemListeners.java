@@ -18,7 +18,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitTask;
@@ -46,16 +45,15 @@ public class ItemListeners implements Listener {
 
     @EventHandler
     public void onPlayerUse(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        //first check if it is even a paper
-        ItemStack itemInHand = player.getInventory().getItemInMainHand();
-        String warpName;
-        //Pierodlic jeden z eventow?
+        //Pierodlic czesc eventu na druga reke.
         if (!(Objects.equals(event.getHand(), EquipmentSlot.HAND))) {
             return;
         }
+        Player player = event.getPlayer();
+        ItemStack itemInHand = player.getInventory().getItemInMainHand();
+        String warpName;
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-            l.info("Klikniecie lewym bylo guzikiem wiec jebac");
+            //l.info("Klikniecie lewym bylo guzikiem wiec jebac");
             return;
         }
 
@@ -70,11 +68,11 @@ public class ItemListeners implements Listener {
                     return;
                 }
             } else {
-                l.info(container + " do not have required key");
+                //l.info(container + " do not have required key");
                 return;
             }
         } catch (NullPointerException e) {
-            l.info("Klikniecie zlym itemem w łapkach");
+            //l.info("Klikniecie zlym itemem w łapkach");
             return;
         }
 
@@ -82,27 +80,27 @@ public class ItemListeners implements Listener {
         Sign sign = SignUtils.getSignFromBlock(block);
         SignData signData;
         if (sign != null) {
-            l.info("Kliknieto na znak");
+            //l.info("Kliknieto na znak");
             signData = new SignData(sign.getSide(Side.FRONT).getLines());
             if (!signData.isHomeSign()) {
-                l.info("signData isn't homesign");
+                //l.info("signData isn't homesign");
                 return;
             }
             if (!signData.isHomeSign()) {
-                l.info("signData isn't homesign");
+                //l.info("signData isn't homesign");
                 return;
             }
         } else {
-            //Nie kliknieto na znak lol
-            if(warpName.equals("*w4nd*") || warpName.equals("*bl4nk*")) return;
-            l.info("Teleportujemy chyba teraz");
+            //Nie kliknieto na znak lol i w rekach jest item inny niz blank i wand
+            if (warpName.equals("*w4nd*") || warpName.equals("*bl4nk*")) return;
+            //l.info("Teleportujemy chyba teraz");
             ItemStack usedItem = player.getInventory().getItemInMainHand();
             teleportPlayer(player, warpName, usedItem);
             return;
         }
         //WAND
         if (warpName.equals("*w4nd*")) {
-            l.info("Wg wszystkich obliczen klikniecie powinno byc PPM i odbyc sie na znaku z uzyciem pałki");
+            //l.info("Wg wszystkich obliczen klikniecie powinno byc PPM i odbyc sie na znaku z uzyciem pałki");
             if (!player.hasPermission("homedepot.create")) {
                 String message = config.getString("messages.create_permission");
                 if (message != null) {
@@ -139,21 +137,19 @@ public class ItemListeners implements Listener {
             sign.setWaxed(true);
             sign.update();
         } else {
-            l.info("Wg wszystkich obliczen klikniecie powinno byc PPM na znaku z uzyciem jakiegokolwiek innego itema posiadajacego warpName");
-            //CREATE COUPON
-            //if (warpName.equals("*bl4nk*")) {
+            //l.info("Wg wszystkich obliczen klikniecie powinno byc PPM na znaku z uzyciem jakiegokolwiek innego itema posiadajacego warpName");
             String fullWarpName = signData.warpName + signData.warpNameSuf;
             Warp warpOnSign = Warp.getByName(fullWarpName);
             if (warpOnSign == null) {
                 //Warp on Sign doesn't exist
-                String warpNameTakenMessage = config.getString("messages.warp_name_taken");
-                if (warpNameTakenMessage != null) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', warpNameTakenMessage));
+                String warpUnregistered = config.getString("messages.warp_on_sign_not_exist");
+                if (warpUnregistered != null) {
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', warpUnregistered));
                 }
                 return;
             }
             if (warpName.equals(fullWarpName)) {
-                l.info("Ten warp jest juz na papierku weic pierdol bąka");
+                //l.info("Ten warp jest juz na papierku weic pierdol bąka");
                 return;
             }
 
@@ -179,7 +175,7 @@ public class ItemListeners implements Listener {
             return;
         }
 
-        int cooldown = 1;//config.getInt("teleport-cooldown", 5);
+        int cooldown = config.getInt("teleportcooldown", 1);
 
         String teleportMessage = config.getString("messages.teleport");
         if (teleportMessage != null) {

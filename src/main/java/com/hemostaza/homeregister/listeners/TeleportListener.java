@@ -40,7 +40,7 @@ public class TeleportListener implements Listener {
         }
         Block block = event.getClickedBlock();
         Sign sign = SignUtils.getSignFromBlock(block);
-        plugin.getLogger().info("O kurwa mać "+sign);
+        //plugin.getLogger().info("O kurwa mać "+sign);
         if (sign != null) {
             return;
         }
