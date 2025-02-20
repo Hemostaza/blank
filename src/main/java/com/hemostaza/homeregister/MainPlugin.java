@@ -44,9 +44,7 @@ public class MainPlugin extends JavaPlugin implements Listener {
         }
 
         im = new ItemManager(this);
-        //getServer().getPluginManager().registerEvents(new HomeWandListener(this), this);
-        //getServer().getPluginManager().registerEvents(new CreatingCouponListener(this), this);
-        //getServer().getPluginManager().registerEvents(new TeleportListener(this), this);
+
         getServer().getPluginManager().registerEvents(new ItemListeners(this),this);
         getServer().getPluginManager().registerEvents(new DestroyListener(this), this);
         getLogger().info("onEnable is called!");

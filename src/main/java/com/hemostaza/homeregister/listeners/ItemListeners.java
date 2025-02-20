@@ -204,14 +204,14 @@ public class ItemListeners implements Listener {
                 player.teleport(targetLocation);
 
 
-                String soundName = config.getString("teleport-sound", "ENTITY_ENDERMAN_TELEPORT");
+                //String soundName = config.getString("teleport-sound", "ENTITY_ENDERMAN_TELEPORT");
                 String effectName = config.getString("teleport-effect", "ENDER_SIGNAL");
 
-                Sound sound = Sound.valueOf(soundName);
+                //Sound sound = Sound.valueOf(soundName);
                 Effect effect = Effect.valueOf(effectName);
 
                 World world = targetLocation.getWorld();
-                world.playSound(targetLocation, sound, 1, 1);
+                //world.playSound(targetLocation, sound, 1, 1);
                 world.playEffect(targetLocation, effect, 10);
 
                 String successMessage = config.getString("messages.teleport-success");

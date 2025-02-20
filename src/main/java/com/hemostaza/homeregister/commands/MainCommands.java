@@ -30,168 +30,125 @@ public class MainCommands implements CommandExecutor, TabCompleter {
         //Subcommand GIVE
         //TODO: Odjebać to w nowe miejsce i dojebać reszte komend.
         if (args[0].equalsIgnoreCase("give")) {
-            String usage = "/homedepot give <player> <item> <?amount?> <?warpto?>";
-            Player target;
-            String item;
-            int amount;
-            String warp;
-
-            if (args.length < 3) {
-                sender.sendMessage(usage);
-                return true;
-            }
-            try {
-                amount = Integer.parseInt(args[3]);
-            } catch (IndexOutOfBoundsException e) {
-                amount = 1;
-            } catch (NumberFormatException e) {
-                sender.sendMessage(usage);
-                sender.sendMessage("Wrong amount value.");
-                return true;
-            }
-
-            try {
-                warp = args[4];
-                Warp warpName = Warp.getByName(warp);
-                if (warpName == null) {
-                    String message = config.getString("messages.warp_not_found");
-                    if (message != null) {
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
-                    }
-                    return true;
-                }
-            } catch (IndexOutOfBoundsException e) {
-                warp = "";
-            }
-            String playerName = args[1];
-            target = sender.getServer().getPlayerExact(playerName);
-            if (target == null) {
-                sender.sendMessage("Player " + playerName + " is not online.");
-                return true;
-            }
-            item = args[2];
-            sender.sendMessage(GiveItem(target, item, amount, warp));
-
+            return CommandGive(sender, args);
+        }
+        if (args[0].equalsIgnoreCase("setWarp")) {
+            return WarpCommand(sender, args, true);
+        }
+        if (args[0].equalsIgnoreCase("delWarp")) {
+            return WarpCommand(sender, args, false);
         }
         return true;
     }
 
-//        if(!(sender instanceof Player player)){
-//            sender.sendMessage("Only players can use this command");
-//            return true;
-//        }
-//
-//        if(args==null){
-//            return true;
-//        }
-//        if(!sender.hasPermission("homedepot.commands")){
-//            String noPermissionMessage = config.getString("messages.destroy_permission");
-//            if (noPermissionMessage != null) {
-//                player.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermissionMessage));
-//            }
-//            return true;
-//        }
-//        if(args[0].equalsIgnoreCase("wand")){
-//
-//            ItemStack item = ItemManager.houseCreator;
-//            if(args.length>1){
-//                int amount = Integer.parseInt(args[1]);
-//                item.setAmount(amount);
-//            }
-//            player.getInventory().addItem(item);
-//        }
-//        if(args[0].equalsIgnoreCase("paper")){
-//            ItemStack item = ItemManager.paper;
-//            if((args.length>1)){
-//                int amount = Integer.parseInt(args[1]);
-//                item.setAmount(amount);
-//            }
-//            player.getInventory().addItem(item);
-//        }
-//        if(args[0].equalsIgnoreCase("setWarp")){
-//            String warpName;
-//            if(args.length>1){
-//                if(args[1]==null || args[1].isEmpty()){
-//                    String message = config.getString("messages.no_warp_name");
-//                    if (message != null) {
-//                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
-//                    }
-//                    return true;
-//                }
-//                warpName = args[1];
-//                Warp existingWarp = Warp.getByName(warpName);
-//                if(existingWarp!=null){
-//                    String message = config.getString("messages.warp_name_taken");
-//                    if (message != null) {
-//                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
-//                    }
-//                    return true;
-//                }
-//                String currentDateTime = java.time.LocalDateTime.now().toString();
-//                Warp warp = new Warp(warpName, player.getLocation(), currentDateTime);
-//                String message = config.getString("messages.warp_created");
-//                if (message != null) {
-//                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
-//                }
-//                warp.save();
-//            }
-//        }
-//        if(args[0].equalsIgnoreCase("delWarp")){
-//            String warpName;
-//            if(args.length>1){
-//                if(args[1]==null || args[1].isEmpty()){
-//                    String message = config.getString("messages.no_warp_name");
-//                    if (message != null) {
-//                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
-//                    }
-//                    return true;
-//                }
-//                warpName = args[1];
-//                Warp warp = Warp.getByName(warpName);
-//                if(warp==null){
-//                    String message = config.getString("messages.warp_not_found");
-//                    if (message != null) {
-//                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
-//                    }
-//                    return true;
-//                }
-//                String message = config.getString("messages.warp_destroyed");
-//                if (message != null) {
-//                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
-//                }
-//                warp.remove();
-//            }else {
-//                player.sendMessage("Dej nazwe warpa"); //ubrac w config
-//            }
-//        }
-//        if(args[0].equalsIgnoreCase("paperto")){
-//            String warpName;
-//            if(args.length>1){
-//                if(args[1]==null || args[1].isEmpty()){
-//                    String message = config.getString("messages.no_warp_name");
-//                    if (message != null) {
-//                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
-//                    }
-//                    return true;
-//                }
-//                warpName = args[1];
-//                Warp warp = Warp.getByName(warpName);
-//                if(warp==null){
-//                    String message = config.getString("messages.warp_not_found");
-//                    if (message != null) {
-//                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
-//                    }
-//                    return true;
-//                }
-//                player.getInventory().addItem(plugin.getItemManager().createTeleportPaper(warpName, 1));
-//            }
-//        }
-//
-//        //if args listwarp lista adminowych warpow czyli szuka warpow bez #
-//
-//        //if args listallwarp lsita wszystkich warpow
-//
-//        return true;
+    private boolean WarpCommand(CommandSender sender, String[] args, boolean createWarp) {
+
+        String usage = "/homedepot setWarp/delWarp <warpname>";
+
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage("Only players can use this command");
+            return true;
+        }
+        String warpName;
+        if (args.length > 1) {
+            if (args[1] == null || args[1].isEmpty()) {
+                String message = config.getString("messages.no_warp_name");
+                if (message != null) {
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+                }
+                return true;
+            }
+            warpName = args[1];
+            Warp existingWarp = Warp.getByName(warpName);
+            if (createWarp) {
+                if (existingWarp != null) {
+                    String message = config.getString("messages.warp_name_taken");
+                    if (message != null) {
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+                    }
+                    return true;
+                }
+                String currentDateTime = java.time.LocalDateTime.now().toString();
+                Warp warp = new Warp(warpName, player.getLocation(), currentDateTime);
+                String message = config.getString("messages.warp_created");
+                if (message != null) {
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+                }
+                warp.save();
+            } else {
+                if (existingWarp == null) {
+                    String message = config.getString("messages.warp_not_found");
+                    if (message != null) {
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+                    }
+                    return true;
+                }
+                String message = config.getString("messages.warp_destroyed");
+                if (message != null) {
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+                }
+                existingWarp.remove();
+            }
+        } else {
+            player.sendMessage(usage); //ubrac w config
+        }
+        return true;
+    }
+
+    private boolean CommandGive(CommandSender sender, String[] args) {
+        //Subcommand GIVE
+        String usage = "/homedepot give <player> <item> <?amount?> <?warpto?>";
+        Player target;
+        String item;
+        int amount;
+        String warp;
+
+        if (args.length < 3) {
+            sender.sendMessage(usage);
+            return true;
+        }
+        try {
+            amount = Integer.parseInt(args[3]);
+            if (amount <= 0 || amount > 64) {
+                sender.sendMessage(usage);
+                String wrongAmount = config.getString("messages:wrong_stack_amount");
+                if (wrongAmount != null) {
+                    sender.sendMessage(wrongAmount);
+                }
+                return true;
+            }
+        } catch (IndexOutOfBoundsException e) {
+            amount = 1;
+        } catch (NumberFormatException e) {
+            sender.sendMessage(usage);
+            sender.sendMessage("Wrong amount value.");
+            return true;
+        }
+
+        try {
+            warp = args[4];
+            Warp warpName = Warp.getByName(warp);
+            if (warpName == null) {
+                String message = config.getString("messages.warp_not_found");
+                if (message != null) {
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+                }
+                return true;
+            }
+        } catch (IndexOutOfBoundsException e) {
+            warp = "";
+        }
+        String playerName = args[1];
+        target = sender.getServer().getPlayerExact(playerName);
+        if (target == null) {
+            sender.sendMessage("Player " + playerName + " is not online.");
+            return true;
+        }
+        item = args[2];
+        sender.sendMessage(GiveItem(target, item, amount, warp));
+        return true;
+    }
+
 
 
     @Override
@@ -205,11 +162,17 @@ public class MainCommands implements CommandExecutor, TabCompleter {
             if ("give".startsWith(args[0].toLowerCase())) {
                 completions.add("give");
             }
+            if ("setwarp".startsWith(args[0].toLowerCase())) {
+                completions.add("setwarp");
+            }
+            if ("delwarp".startsWith(args[0].toLowerCase())) {
+                completions.add("delwarp");
+            }
         }
-        if(args.length==2){
+        if (args.length == 2 && args[0].equalsIgnoreCase("give")) {
             return players;
         }
-        if(args.length==3){
+        if (args.length == 3 && args[0].equalsIgnoreCase("give")) {
             if ("registerer".startsWith(args[2].toLowerCase())) {
                 completions.add("registerer");
             }
@@ -234,11 +197,11 @@ public class MainCommands implements CommandExecutor, TabCompleter {
                 }
                 break;
             default:
-                return "Wrong item mate.";
+                return "Item shoudl be registerer or coupon";
         }
         itemStack.setAmount(amount);
         player.getInventory().addItem(itemStack);
-        return "Player "+player.getName()+" received "+itemStack.getItemMeta().getDisplayName();
+        return "Player " + player.getName() + " received " + itemStack.getItemMeta().getDisplayName();
     }
 
 

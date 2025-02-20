@@ -20,6 +20,7 @@ import java.util.List;
 public class BuyCommands implements CommandExecutor, TabCompleter {
     private final JavaPlugin plugin;
     private static FileConfiguration config;
+
     public BuyCommands(JavaPlugin plugin) {
         this.plugin = plugin;
         config = plugin.getConfig();
@@ -27,25 +28,28 @@ public class BuyCommands implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if(!(sender instanceof Player player)){
+        if (!(sender instanceof Player player)) {
             sender.sendMessage("Only players can use this command");
             return true;
         }
-        if(args==null){
+        if (args == null) {
             return true;
         }
 
         Economy economy = VaultEconomy.getEconomy();
-        if(economy == null){
+        if (economy == null) {
             Bukkit.getLogger().info("Vault is required to take cost, but it is not installed or enabled.");
         }
-        if(args[0].equalsIgnoreCase("howmuch")){
-            player.sendMessage("Registerer stick cost: "+ config.getInt("wanditem.cost"));
-            player.sendMessage("Blank coupon cost: "+ config.getInt("blankcouponitem.cost"));
+        if (args[0].equalsIgnoreCase("howmuch")) {
+            if (economy != null) {
+                player.sendMessage("Registerer stick cost: " + config.getInt("wanditem.cost"));
+                player.sendMessage("Blank coupon cost: " + config.getInt("blankcouponitem.cost"));
+            }else player.sendMessage("Economy not enabled on server. There is no cost");
+
         }
         //kupno patyka
-        if(args[0].equalsIgnoreCase("registerer")){
-            if(!config.getBoolean("wanditem.canbuy")){
+        if (args[0].equalsIgnoreCase("registerer")) {
+            if (!config.getBoolean("wanditem.canbuy")) {
                 String noPermissionMessage = config.getString("messages.buying_disable");
                 if (noPermissionMessage != null) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermissionMessage));
@@ -54,31 +58,31 @@ public class BuyCommands implements CommandExecutor, TabCompleter {
             }
             int wandCost = config.getInt("wanditem.cost");
             int amount = 1;
-            if((args.length>1)){
-                try{
+            if ((args.length > 1)) {
+                try {
                     amount = Integer.parseInt(args[1]);
-                }catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     player.sendMessage(ChatColor.RED + "Wrong number format");
                     return true;
                 }
             }
-            if(wandCost>0){
-                if (economy!=null){
-                    int cost = amount*wandCost;
-                    if(economy.getBalance(player) < cost) {
+            if (wandCost > 0) {
+                if (economy != null) {
+                    int cost = amount * wandCost;
+                    if (economy.getBalance(player) < cost) {
                         String message = config.getString("messages.not_enough_for_item");
-                        if(message!=null){
-                            player.sendMessage(ChatColor.RED + message.replace("{item}","registerer"));
+                        if (message != null) {
+                            player.sendMessage(ChatColor.RED + message.replace("{item}", "registerer"));
                         }
                         return true;
-                    }else{
+                    } else {
                         String message = config.getString("messages.you_payed");
-                        if(message!=null){
-                            player.sendMessage(message.replace("{cost}",String.valueOf(cost))
-                                    .replace("{amount}",String.valueOf(amount))
-                                    .replace("{item}","registerer"));
+                        if (message != null) {
+                            player.sendMessage(message.replace("{cost}", String.valueOf(cost))
+                                    .replace("{amount}", String.valueOf(amount))
+                                    .replace("{item}", "registerer"));
                         }
-                        economy.withdrawPlayer(player,cost);
+                        economy.withdrawPlayer(player, cost);
                     }
                 }
             }
@@ -86,8 +90,8 @@ public class BuyCommands implements CommandExecutor, TabCompleter {
             item.setAmount(amount);
             player.getInventory().addItem(item);
         }
-        if(args[0].equalsIgnoreCase("coupon")){
-            if(!config.getBoolean("blankcouponitem.canbuy")){
+        if (args[0].equalsIgnoreCase("coupon")) {
+            if (!config.getBoolean("blankcouponitem.canbuy")) {
                 String noPermissionMessage = config.getString("messages.buying_disable");
                 if (noPermissionMessage != null) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermissionMessage));
@@ -96,34 +100,34 @@ public class BuyCommands implements CommandExecutor, TabCompleter {
             }
             int couponCost = config.getInt("blankcouponitem.cost");
             int amount = 1;
-            if((args.length>1)){
-                try{
+            if ((args.length > 1)) {
+                try {
                     amount = Integer.parseInt(args[1]);
-                }catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     player.sendMessage(ChatColor.RED + "Wrong number format");
                     return true;
                 }
             }
-            if(amount==0){
+            if (amount == 0) {
                 player.sendMessage(ChatColor.RED + "What?");
             }
 
-            if(couponCost>0){
-                if (economy!=null){
-                    int cost = amount*couponCost;
-                    if(economy.getBalance(player) < cost) {
+            if (couponCost > 0) {
+                if (economy != null) {
+                    int cost = amount * couponCost;
+                    if (economy.getBalance(player) < cost) {
                         String message = config.getString("messages.not_enough_for_item");
-                        if(message!=null){
-                            player.sendMessage(ChatColor.RED + message.replace("{item}","coupon"));
+                        if (message != null) {
+                            player.sendMessage(ChatColor.RED + message.replace("{item}", "coupon"));
                         }
-                    }else{
+                    } else {
                         String message = config.getString("messages.you_payed");
-                        if(message!=null){
-                            player.sendMessage(message.replace("{cost}",String.valueOf(cost))
-                                    .replace("{amount}",String.valueOf(amount))
-                                    .replace("{item}","coupon"));
+                        if (message != null) {
+                            player.sendMessage(message.replace("{cost}", String.valueOf(cost))
+                                    .replace("{amount}", String.valueOf(amount))
+                                    .replace("{item}", "coupon"));
                         }
-                        economy.withdrawPlayer(player,cost);
+                        economy.withdrawPlayer(player, cost);
                     }
                 }
             }
