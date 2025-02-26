@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 public class ItemListeners implements Listener {
     private final MainPlugin plugin;
     private static FileConfiguration config;
-    private ItemManager itemManager;
+    private final ItemManager itemManager;
     Logger l;
     private final HashMap<UUID, BukkitTask> teleportTasks = new HashMap<>();
     private final HashSet<UUID> invinciblePlayers = new HashSet<>();
@@ -64,7 +64,8 @@ public class ItemListeners implements Listener {
                 warpName = container.get(plugin.getKey(), PersistentDataType.STRING);
                 //event.setCancelled(true);
                 if (warpName == null) {
-                    l.info("warpname is null");
+                    //żaden z istotnych itemów więc jebać
+                    //l.info("warpname is null");
                     return;
                 }
             } else {
@@ -86,10 +87,6 @@ public class ItemListeners implements Listener {
                 //l.info("signData isn't homesign");
                 return;
             }
-            if (!signData.isHomeSign()) {
-                //l.info("signData isn't homesign");
-                return;
-            }
         } else {
             //Nie kliknieto na znak lol i w rekach jest item inny niz blank i wand
             if (warpName.equals("*w4nd*") || warpName.equals("*bl4nk*")) return;
@@ -102,21 +99,16 @@ public class ItemListeners implements Listener {
         if (warpName.equals("*w4nd*")) {
             //l.info("Wg wszystkich obliczen klikniecie powinno byc PPM i odbyc sie na znaku z uzyciem pałki");
             if (!player.hasPermission("homedepot.create")) {
-                String message = config.getString("messages.create_permission");
-                if (message != null) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
-                }
+                String message = config.getString("messages.create_permission","You do not have the required permissions to create home signs!");
+                player.sendMessage(ChatColor.RED + message);
                 return;
             }
             String suff = "#" + player.getName();
             String fullWarpName = signData.warpName + suff;
             Warp existingWarp = Warp.getByName(fullWarpName);
             if (existingWarp != null) {
-                //warp z taka nazwa istnieje
-                String warpNameTakenMessage = config.getString("messages.warp_name_taken");
-                if (warpNameTakenMessage != null) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', warpNameTakenMessage));
-                }
+                String warpNameTakenMessage = config.getString("messages.home_name_taken","A warp target with the same name already exists!");
+                player.sendMessage(ChatColor.RED + warpNameTakenMessage);
                 //event.setCancelled(true);
                 return;
             }
@@ -126,10 +118,8 @@ public class ItemListeners implements Listener {
 
             sign.getSide(Side.FRONT).setLine(0, ChatColor.BLUE + "[HOME]");
 
-            String targetSignCreatedMessage = config.getString("messages.target_sign_created");
-            if (targetSignCreatedMessage != null) {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', targetSignCreatedMessage));
-            }
+            String targetSignCreatedMessage = config.getString("messages.home_sign_created","Home successfully registered.");
+            player.sendMessage(ChatColor.GREEN + targetSignCreatedMessage);
             //Zabranie pałki z rąk
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
 
@@ -142,10 +132,8 @@ public class ItemListeners implements Listener {
             Warp warpOnSign = Warp.getByName(fullWarpName);
             if (warpOnSign == null) {
                 //Warp on Sign doesn't exist
-                String warpUnregistered = config.getString("messages.warp_on_sign_not_exist");
-                if (warpUnregistered != null) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', warpUnregistered));
-                }
+                String warpUnregistered = config.getString("messages.home_on_sign_not_exist","Home on this sign is not registered!");
+                player.sendMessage(ChatColor.RED + warpUnregistered);
                 return;
             }
             if (warpName.equals(fullWarpName)) {
@@ -168,19 +156,15 @@ public class ItemListeners implements Listener {
         Warp warp = Warp.getByName(warpName);
 
         if (warp == null) {
-            String warpNotFoundMessage = config.getString("messages.warp_not_found");
-            if (warpNotFoundMessage != null) {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', warpNotFoundMessage));
-            }
+            String warpNotFoundMessage = config.getString("messages.home_not_found","Specified home does not exist!");
+            player.sendMessage(ChatColor.RED + warpNotFoundMessage);
             return;
         }
 
         int cooldown = config.getInt("teleportcooldown", 1);
 
-        String teleportMessage = config.getString("messages.teleport");
-        if (teleportMessage != null) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', teleportMessage.replace("{warp-name}", warp.getName()).replace("{time}", String.valueOf(cooldown))));
-        }
+        String teleportMessage = config.getString("messages.teleport","Teleporting to {home} in {time} seconds...");
+        player.sendMessage(ChatColor.GOLD + teleportMessage.replace("{home}", warpName).replace("{time}", String.valueOf(cooldown)));
 
         UUID playerUUID = player.getUniqueId();
 
@@ -203,27 +187,19 @@ public class ItemListeners implements Listener {
                 player.getInventory().removeItem(useItem);
                 player.teleport(targetLocation);
 
-
-                //String soundName = config.getString("teleport-sound", "ENTITY_ENDERMAN_TELEPORT");
-                String effectName = config.getString("teleport-effect", "ENDER_SIGNAL");
-
-                //Sound sound = Sound.valueOf(soundName);
-                Effect effect = Effect.valueOf(effectName);
+                Sound sound = Sound.ENTITY_ENDERMAN_TELEPORT;
+                Effect effect = Effect.ENDER_SIGNAL;
 
                 World world = targetLocation.getWorld();
-                //world.playSound(targetLocation, sound, 1, 1);
+                world.playSound(targetLocation, sound, 1, 1);
                 world.playEffect(targetLocation, effect, 10);
 
-                String successMessage = config.getString("messages.teleport-success");
-                if (successMessage != null) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', successMessage.replace("{warp-name}", warp.getName())));
-                }
-                //player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+                String successMessage = config.getString("messages.teleport-success","Successfully teleported to {home}.");
+                player.sendMessage(ChatColor.GREEN + successMessage.replace("{home}", warpName));
+
             } else {
-                String successMessage = config.getString("messages.teleport-error");
-                if (successMessage != null) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', successMessage.replace("{warp-name}", warp.getName())));
-                }
+                String successMessage = config.getString("messages.teleport-error","An error occured, when teleporting to: {home}.");
+                player.sendMessage(ChatColor.RED+ successMessage.replace("{home}", warpName));
             }
             // Remove the task from the map after completion
             teleportTasks.remove(playerUUID);

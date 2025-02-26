@@ -18,14 +18,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class DestroyListener implements Listener {
-    private final MainPlugin plugin;
     private static FileConfiguration config;
 
 
     public DestroyListener(MainPlugin plugin) {
-        this.plugin = plugin;
         config = plugin.getConfig();
     }
 
@@ -61,46 +60,42 @@ public class DestroyListener implements Listener {
         Player player = event.getPlayer();
 
         //if player is owner
-        if (!player.hasPermission("homedepot.destroy")) {
-            String noPermissionMessage = config.getString("messages.destroy_permission");
-            if (noPermissionMessage != null) {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermissionMessage));
-            }
-            event.setCancelled(true);
-            signBlock.getSide(Side.FRONT).setLine(0,"[HOME]");
-            signBlock.getSide(Side.FRONT).setLine(1,signData.warpName);
-            signBlock.getSide(Side.FRONT).setLine(2,signData.warpNameSuf);
-            return;
-        }
+//        if (!player.hasPermission("homedepot.destroy")) {
+//            String noPermissionMessage = Objects.requireNonNullElse(config.getString("messages.destroy_permission"),
+//                    "You do not have the required permissions to destroy warp signs!");
+//            player.sendMessage(ChatColor.RED+ noPermissionMessage);
+//            event.setCancelled(true);
+//            signBlock.getSide(Side.FRONT).setLine(0,"[HOME]");
+//            signBlock.getSide(Side.FRONT).setLine(1,signData.warpName);
+//            signBlock.getSide(Side.FRONT).setLine(2,signData.warpNameSuf);
+//            return;
+//        }
         //if player isn't owner
-        if(!signData.warpNameSuf.equals("#"+player.getName())){
+        if (!signData.warpNameSuf.equals("#" + player.getName())) {
             if (!player.hasPermission("homedepot.remove")) {
-                String noPermissionMessage = config.getString("messages.destroy_permission");
-                if (noPermissionMessage != null) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', noPermissionMessage));
-                }
+                String noPermissionMessage = config.getString("messages.destroy_permission","You do not have the required permissions to destroy warp signs!");
+                player.sendMessage(ChatColor.RED + noPermissionMessage);
                 event.setCancelled(true);
-                signBlock.getSide(Side.FRONT).setLine(0,"[HOME]");
-                signBlock.getSide(Side.FRONT).setLine(1,signData.warpName);
-                signBlock.getSide(Side.FRONT).setLine(2,signData.warpNameSuf);
+                signBlock.getSide(Side.FRONT).setLine(0, "[HOME]");
+                signBlock.getSide(Side.FRONT).setLine(1, signData.warpName);
+                signBlock.getSide(Side.FRONT).setLine(2, signData.warpNameSuf);
                 return;
             }
         }
 
-        Warp warp = Warp.getByName(signData.warpName+signData.warpNameSuf);
+        Warp warp = Warp.getByName(signData.warpName + signData.warpNameSuf);
 
         if (warp == null) {
             return;
         }
 
-        block.getWorld().dropItem(block.getLocation(),ItemManager.houseCreator);
+        block.getWorld().dropItem(block.getLocation(), ItemManager.houseCreator);
 
         warp.remove();
-        String message = config.getString("messages.warp_destroyed");
-        if(message!=null){
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
-        }
+        String message = config.getString("messages.home_destroyed","Home destroyed.");
+        player.sendMessage(ChatColor.GOLD + message);
     }
+
     private boolean hasBlockWarpSign(Block block) {
         return SignUtils.hasBlockSign(block, this::isWarpSign);
     }

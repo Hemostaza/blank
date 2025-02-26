@@ -28,14 +28,15 @@ public class ItemManager {
     }
 
     private void createPaper() {
-        ItemStack item = new ItemStack(Material.PAPER, 1);
+        Material material = Material.getMaterial(config.getString("blankticket.material","PAPER"));
+        ItemStack item = new ItemStack(material, 1);
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
 
         meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, "*bl4nk*");
 
-        meta.setDisplayName(config.getString("blankcouponitem.name"));
-        List<String> lore = config.getStringList("blankcouponitem.lore");
+        meta.setDisplayName(config.getString("blankticket.name","Blank ticket"));
+        List<String> lore = config.getStringList("blankticket.lore");
         meta.setLore(lore);
         item.setItemMeta(meta);
         paper = item;
@@ -46,23 +47,24 @@ public class ItemManager {
     }
 
     public ItemStack createTeleportPaper(String warpName, int amount){
-        ItemStack item = new ItemStack(Material.PAPER,amount);
+        Material material = Material.getMaterial(config.getString("ticket.material","PAPER"));
+        ItemStack item = new ItemStack(material,amount);
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
 
         meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, warpName);
 
-        meta.setDisplayName(config.getString("couponitem.name"));
+        meta.setDisplayName(config.getString("ticket.name","Home ticket"));
         meta.setRarity(ItemRarity.RARE);
         meta.setEnchantmentGlintOverride(true);
         //change {warp} to warp name
         List<String> lore = new ArrayList<>();
-        List<String> configList = config.getStringList("couponitem.lore");
+        List<String> configList = config.getStringList("ticket.lore");
         //l.info(configList.toString());
         for (String line : configList) {
             lore.add(line.replace("{warp}", warpName));
         }
-        if (lore.isEmpty()) lore.add("Watp to "+ warpName);
+        if (lore.isEmpty()) lore.add("Warp to "+ warpName);
 //        lore.add(homename);
 //        lore.add(homeSuff);
         meta.setLore(lore);
@@ -71,14 +73,15 @@ public class ItemManager {
     }
 
     private void createHouseCreator(){
-        ItemStack item = new ItemStack(Material.STICK,1);
+        Material material = Material.getMaterial(config.getString("registerer.material","STICK"));
+        ItemStack item = new ItemStack(material,1);
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
 
         meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, "*w4nd*");
 
-        meta.setDisplayName(config.getString("wanditem.name"));
-        List<String> lore = config.getStringList("wanditem.lore");
+        meta.setDisplayName(config.getString("registerer.name","Home registerer"));
+        List<String> lore = config.getStringList("registerer.lore");
         meta.setLore(lore);
         item.setItemMeta(meta);
         houseCreator = item;

@@ -20,7 +20,6 @@ permissions:
     children:
       - homedepot.create
       - homedepot.use
-      - homedepot.destroy
       - homedepot.commands
       - homedepot.remove
   homedepot.create:
@@ -28,9 +27,6 @@ permissions:
     default: true
   homedepot.use:
     description: "Allow uses of home signs"
-    default: true
-  homedepot.destroy:
-    description: "Allows you to destroy your sign"
     default: true
   homedepot.commands:
     description: "Allows you to use op commands"

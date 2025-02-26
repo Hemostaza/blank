@@ -1,43 +1,49 @@
 #Option canbuy is to set if items can be buy by commands, and give opportunity to create other ways to obtain items by player.
-wanditem:
+#cost value doesn't work without properly configured vault.
+canbuy: true
+registerer:
   name: "Home registerer"
   lore:
     - "With this item you can register"
     - "Your home warp."
+  material: "STICK"
   cost: 10
-  canbuy: true
-blankcouponitem:
-  name: "Blank warp ticket"
+blankticket:
+  name: "Blank ticket"
   lore:
     - "Blank ticket ready to link"
     - "with home sign"
+  material: "PAPER"
   cost: 1
-  canbuy: true
 
-# {warp} is important to show where coupon lead to
-couponitem:
-  name: "Warp ticket"
+# {warp} is important to show where coupon lead to, but it's not necessary
+ticket:
+  name: "Home ticket"
   lore:
     - "Ticket linked to:"
-    - "{warp}"
+    - "{home}"
+  material: "PAPER"
 
 teleportcooldown: 1
 
 messages:
-  wrong_stack_amount: "Wrong amount value"
-  buying_disable: "Homedepot buy is disabled."
+  wrong_stack_amount: "Wrong stack amount value"
+  buying_disabled: "Homedepot buy command is disabled."
   not_enough_for_item: "You don't have enough money to buy {item}."
-  you_payed: "You pay {cost} for {amount} {item}"
-  create_permission: "&cYou do not have the required permissions to create home signs!"
-  no_warp_name: "&cNo warp name set!\nPlease specify the warp name."
-  warp_created: "&aWarp successfully placed."
-  warp_name_taken: "&cA warp target with the same name already exists!"
-  warp_destroyed: "&aWarp destroyed."
-  warp_on_sign_not_exist: "&cWarp on this sign is not registered!"
-  target_sign_created: "&aHome successfully registered."
-  destroy_permission: "&cYou do not have the required permissions to destroy warp signs!"
-  warp_not_found: "&cSpecified warp does not exist!"
-  teleport: "&eTeleporting to {warp-name} in {time} seconds..."
-  teleport-success: "&aSuccessfully teleported to {warp-name}."
-  teleport-error: "&aAn error occured, when teleporting to: {warp-name}."
-  teleport-cancelled: "&cTeleport cancelled."
+  you_paid: "You paid {cost} for {amount} {item}"
+  create_permission: "You do not have the required permissions to create home signs!"
+  no_home_name: "No home name set!\nPlease specify the home name."
+  home_created: "Home successfully registered."
+  home_name_taken: "A home with the same name already exists!"
+  home_destroyed: "Home destroyed."
+  home_on_sign_not_exist: "Home on this sign is not registered!"
+  home_sign_created: "Home successfully registered."
+  destroy_permission: "You do not have the required permissions to destroy home signs!"
+  home_not_found: "Specified home does not exist!"
+  teleport: "Teleporting to {home} in {time} seconds..."
+  teleport-success: "Successfully teleported to {home}."
+  teleport-error: "An error occured, when teleporting to: {home}."
+  teleport-cancelled: "Teleport cancelled."
+  item_cost: "{item} cost {cost}"
+  economy_false: "Economy plugin is not enabled on server."
+  item_received: "{player} received {amount} {item}."
