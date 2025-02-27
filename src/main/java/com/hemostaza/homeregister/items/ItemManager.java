@@ -62,7 +62,7 @@ public class ItemManager {
         List<String> configList = config.getStringList("ticket.lore");
         //l.info(configList.toString());
         for (String line : configList) {
-            lore.add(line.replace("{warp}", warpName));
+            lore.add(line.replace("{home}", warpName));
         }
         if (lore.isEmpty()) lore.add("Warp to "+ warpName);
 //        lore.add(homename);

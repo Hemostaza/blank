@@ -4,8 +4,8 @@ canbuy: true
 registerer:
   name: "Home registerer"
   lore:
-    - "With this item you can register"
-    - "Your home warp."
+    - "With this item you can"
+    - "Register your home."
   material: "STICK"
   cost: 10
 blankticket:
@@ -16,7 +16,7 @@ blankticket:
   material: "PAPER"
   cost: 1
 
-# {warp} is important to show where coupon lead to, but it's not necessary
+# {home} is important to show where coupon lead to, but it's not necessary
 ticket:
   name: "Home ticket"
   lore:

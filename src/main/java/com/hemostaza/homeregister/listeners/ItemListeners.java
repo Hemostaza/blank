@@ -80,11 +80,15 @@ public class ItemListeners implements Listener {
         Block block = event.getClickedBlock();
         Sign sign = SignUtils.getSignFromBlock(block);
         SignData signData;
+
         if (sign != null) {
             //l.info("Kliknieto na znak");
             signData = new SignData(sign.getSide(Side.FRONT).getLines());
             if (!signData.isHomeSign()) {
                 //l.info("signData isn't homesign");
+                return;
+            }
+            if (!signData.isValidHomeName()) {
                 return;
             }
         } else {
@@ -99,15 +103,19 @@ public class ItemListeners implements Listener {
         if (warpName.equals("*w4nd*")) {
             //l.info("Wg wszystkich obliczen klikniecie powinno byc PPM i odbyc sie na znaku z uzyciem pałki");
             if (!player.hasPermission("homedepot.create")) {
-                String message = config.getString("messages.create_permission","You do not have the required permissions to create home signs!");
+                String message = config.getString("messages.create_permission", "You do not have the required permissions to create home signs!");
                 player.sendMessage(ChatColor.RED + message);
                 return;
             }
             String suff = "#" + player.getName();
             String fullWarpName = signData.warpName + suff;
+            if (signData.warpName.isBlank()) {
+                String message = config.getString("messages.no_home_name", "No home name set!\nPlease specify the home name.");
+                player.sendMessage(ChatColor.RED + message);
+            }
             Warp existingWarp = Warp.getByName(fullWarpName);
             if (existingWarp != null) {
-                String warpNameTakenMessage = config.getString("messages.home_name_taken","A warp target with the same name already exists!");
+                String warpNameTakenMessage = config.getString("messages.home_name_taken", "A warp target with the same name already exists!");
                 player.sendMessage(ChatColor.RED + warpNameTakenMessage);
                 //event.setCancelled(true);
                 return;
@@ -118,7 +126,7 @@ public class ItemListeners implements Listener {
 
             sign.getSide(Side.FRONT).setLine(0, ChatColor.BLUE + "[HOME]");
 
-            String targetSignCreatedMessage = config.getString("messages.home_sign_created","Home successfully registered.");
+            String targetSignCreatedMessage = config.getString("messages.home_sign_created", "Home successfully registered.");
             player.sendMessage(ChatColor.GREEN + targetSignCreatedMessage);
             //Zabranie pałki z rąk
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
@@ -132,7 +140,7 @@ public class ItemListeners implements Listener {
             Warp warpOnSign = Warp.getByName(fullWarpName);
             if (warpOnSign == null) {
                 //Warp on Sign doesn't exist
-                String warpUnregistered = config.getString("messages.home_on_sign_not_exist","Home on this sign is not registered!");
+                String warpUnregistered = config.getString("messages.home_on_sign_not_exist", "Home on this sign is not registered!");
                 player.sendMessage(ChatColor.RED + warpUnregistered);
                 return;
             }
@@ -156,14 +164,14 @@ public class ItemListeners implements Listener {
         Warp warp = Warp.getByName(warpName);
 
         if (warp == null) {
-            String warpNotFoundMessage = config.getString("messages.home_not_found","Specified home does not exist!");
+            String warpNotFoundMessage = config.getString("messages.home_not_found", "Specified home does not exist!");
             player.sendMessage(ChatColor.RED + warpNotFoundMessage);
             return;
         }
 
         int cooldown = config.getInt("teleportcooldown", 1);
 
-        String teleportMessage = config.getString("messages.teleport","Teleporting to {home} in {time} seconds...");
+        String teleportMessage = config.getString("messages.teleport", "Teleporting to {home} in {time} seconds...");
         player.sendMessage(ChatColor.GOLD + teleportMessage.replace("{home}", warpName).replace("{time}", String.valueOf(cooldown)));
 
         UUID playerUUID = player.getUniqueId();
@@ -194,12 +202,12 @@ public class ItemListeners implements Listener {
                 world.playSound(targetLocation, sound, 1, 1);
                 world.playEffect(targetLocation, effect, 10);
 
-                String successMessage = config.getString("messages.teleport-success","Successfully teleported to {home}.");
+                String successMessage = config.getString("messages.teleport-success", "Successfully teleported to {home}.");
                 player.sendMessage(ChatColor.GREEN + successMessage.replace("{home}", warpName));
 
             } else {
-                String successMessage = config.getString("messages.teleport-error","An error occured, when teleporting to: {home}.");
-                player.sendMessage(ChatColor.RED+ successMessage.replace("{home}", warpName));
+                String successMessage = config.getString("messages.teleport-error", "An error occured, when teleporting to: {home}.");
+                player.sendMessage(ChatColor.RED + successMessage.replace("{home}", warpName));
             }
             // Remove the task from the map after completion
             teleportTasks.remove(playerUUID);
