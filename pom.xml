@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.hemostaza</groupId>
-    <artifactId>blank</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>home-registerer</artifactId>
+    <version>1.0</version>
 
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
