@@ -5,32 +5,32 @@ api-version: '1.21'
 softdepend:
   - Vault
 commands:
-  homedepot:
+  homeregistry:
     description: "Main commands for HomeRegistry"
-    usage: "/homedepot <subcommands>"
-    aliases: ["hd"]
-    permission: homedepot.commands
+    usage: "/homeregistry <subcommands>"
+    aliases: ["hr"]
+    permission: homeregistry.commands
     permission-message: 'You do not have permission to run this command'
-  homedepotbuy:
+  homeregistrybuy:
     description: "Buy items necessary for registering house"
-    usage: "/homedepotbuy <registerer/coupon/howmuch>"
-    aliases: ["hdbuy","hdb"]
+    usage: "/homeregistrybuy <registerer/coupon/howmuch>"
+    aliases: ["hrbuy","hrb"]
 permissions:
-  homedepot.*:
+  homeregistry.*:
     children:
-      - homedepot.create
-      - homedepot.use
-      - homedepot.commands
-      - homedepot.remove
-  homedepot.create:
+      - homeregistry.create
+      - homeregistry.use
+      - homeregistry.commands
+      - homeregistry.remove
+  homeregistry.create:
     description: "Allows you to create home signs"
     default: true
-  homedepot.use:
+  homeregistry.use:
     description: "Allow uses of home signs"
     default: true
-  homedepot.commands:
+  homeregistry.commands:
     description: "Allows you to use op commands"
     default: op
-  homedepot.remove:
+  homeregistry.remove:
     description: "Allows you to remove everyone home sign"
     default: op

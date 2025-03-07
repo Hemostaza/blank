@@ -42,7 +42,7 @@ public class MainCommands implements CommandExecutor, TabCompleter {
 
     private boolean WarpCommand(CommandSender sender, String[] args, boolean createWarp) {
 
-        String usage = "/homedepot sethome/delhome <warpname>";
+        String usage = "/homeregistry sethome/delhome <warpname>";
 
         if (!(sender instanceof Player player)) {
             sender.sendMessage("Only players can use this command");
@@ -91,7 +91,7 @@ public class MainCommands implements CommandExecutor, TabCompleter {
 
     private boolean CommandGive(CommandSender sender, String[] args) {
         //Subcommand GIVE
-        String usage = "/homedepot give <player> <item> <?amount?> <?home?>";
+        String usage = "/homeregistry give <player> <item> <?amount?> <?home?>";
         Player target;
         int amount;
         String warp;

@@ -28,7 +28,7 @@ teleportcooldown: 1
 
 messages:
   wrong_stack_amount: "Wrong stack amount value"
-  buying_disabled: "Homedepot buy command is disabled."
+  buying_disabled: "HomeRegistry buy command is disabled."
   not_enough_for_item: "You don't have enough money to buy {item}."
   you_paid: "You paid {cost} for {amount} {item}"
   create_permission: "You do not have the required permissions to create home signs!"

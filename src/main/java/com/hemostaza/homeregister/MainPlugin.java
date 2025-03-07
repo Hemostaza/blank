@@ -21,12 +21,12 @@ public class MainPlugin extends JavaPlugin implements Listener {
         //create db
         Warp.createTable();
 
-        PluginCommand command = getCommand("homedepot");
+        PluginCommand command = getCommand("homeregistry");
         if(command!=null){
             MainCommands mc = new MainCommands(this);
             command.setExecutor(mc);
         }
-        PluginCommand buyCommand = getCommand("homedepotbuy");
+        PluginCommand buyCommand = getCommand("homeregistrybuy");
         if(buyCommand!=null){
             BuyCommands bc = new BuyCommands(this);
             buyCommand.setExecutor(bc);

@@ -72,7 +72,7 @@ public class DestroyListener implements Listener {
 //        }
         //if player isn't owner
         if (!signData.warpNameSuf.equals("#" + player.getName())) {
-            if (!player.hasPermission("homedepot.remove")) {
+            if (!player.hasPermission("homeregistry.remove")) {
                 String noPermissionMessage = config.getString("messages.destroy_permission","You do not have the required permissions to destroy warp signs!");
                 player.sendMessage(ChatColor.RED + noPermissionMessage);
                 event.setCancelled(true);

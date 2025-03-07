@@ -102,7 +102,7 @@ public class ItemListeners implements Listener {
         //WAND
         if (warpName.equals("*w4nd*")) {
             //l.info("Wg wszystkich obliczen klikniecie powinno byc PPM i odbyc sie na znaku z uzyciem pałki");
-            if (!player.hasPermission("homedepot.create")) {
+            if (!player.hasPermission("homeregistry.create")) {
                 String message = config.getString("messages.create_permission", "You do not have the required permissions to create home signs!");
                 player.sendMessage(ChatColor.RED + message);
                 return;
